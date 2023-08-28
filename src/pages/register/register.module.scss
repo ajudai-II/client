@@ -1,0 +1,153 @@
+@import '../../styles/colors';
+@import '../../styles/fonts';
+
+.registerPageMain {
+  width: 100%;
+  background-color: $background-pages-default;
+}
+
+.registerPageLogoImg {
+  display: none;
+}
+
+.registerPageDesktopContentContainer {
+  display: none;
+}
+
+.inputsBoxContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  margin-top: 12%;
+}
+
+.registerPageErrorP {
+  font-size: 1rem;
+  font-family: $font-family-principal;
+  color: $color-error-default;
+}
+
+.registerCheckbox {
+  font-size: 0.7rem;
+  font-family: $font-family-principal;
+  color: $fonte-cor-primaria;
+  padding: 24px 0;
+  display: flex;
+  gap: 4px;
+}
+
+.registerPageRegisterButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+.registerPagePP {
+  font-family: $font-family-principal;
+  color: $fonte-cor-primaria;
+  font-weight: 300;
+  font-size: 0.8rem;
+  cursor: pointer;
+  align-self: center;
+}
+
+.registerPageDesktopContentContainerSpanMobile {
+  display: flex;
+  gap: 8px;
+  margin-top: 12%;
+}
+
+.registerPageDesktopContentContainerSpanAMobile {
+  font-family: $font-family-principal;
+  font-weight: 700;
+  border-bottom: 1px solid $fonte-cor-primaria;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+@media (min-width: 576px) {
+  .registerPageinputsBox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .inputsBoxContainer {
+    width: 80%;
+  }
+}
+
+@media (min-width: 768px) {
+  .registerPageMain {
+    min-height: 100vh;
+    background-image: url('../../assets/register-photo-bg.png');
+    object-fit: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+
+  .registerPageDesktopContentContainerP {
+    font-family: $font-family-principal;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 2;
+  }
+
+  .registerPageDesktopContentContainerSpan {
+    display: flex;
+    gap: 8px;
+  }
+
+  .registerPageDesktopContentContainerSpanP {
+    font-family: $font-family-principal;
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+  .registerPageDesktopContentContainerSpanA {
+    font-family: $font-family-principal;
+    font-weight: 700;
+    border-bottom: 1px solid #000000;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+
+  .registerPageDesktopContentContainerSpanA > a {
+    color: $fonte-cor-primaria;
+  }
+
+  .registerPageDesktopContentContainer {
+    display: block;
+  }
+
+  .registerPageLogoImg {
+    display: block;
+  }
+
+  .registerPageinputsBox {
+    width: 50%;
+    background-color: $background-pages-default;
+    height: 90vh;
+    border-radius: 5px;
+  }
+
+  .registerPageDesktopContentContainerSpanMobile {
+    display: none;
+  }
+}
+@media (min-width: 992px) {
+  .registerPageinputsBox {
+    width: 45%;
+  }
+}

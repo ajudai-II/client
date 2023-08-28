@@ -5,7 +5,9 @@ export default function Home() {
     <>
       <Seo title={"Homepage"} />
       <div>
-        <h1>MAINPAGE DO AJUDAI</h1>
+        <h1>MAINPAGE DO AJUDAII</h1>
+        <div>
+        </div>
       </div>
     </>
   );
