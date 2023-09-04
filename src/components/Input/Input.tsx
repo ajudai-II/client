@@ -1,46 +1,32 @@
-import React from "react";
+import React from 'react';
+import { Input } from '@chakra-ui/react';
 import { HTMLInputTypeAttribute } from 'react';
 import styles from "./input.module.scss";
 
 interface IInput {
-  label: string;
-  onChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  label?: string;
   type: HTMLInputTypeAttribute;
-  error?: boolean;
-  value?: string;
-  name?: string;
+  name: string;
+  register?: any;
   placeholder?: string;
+  errors?: any;
 }
 
-const Input: React.FC<IInput> = ({
-  label,
-  onChange,
-  type,
-  error,
-  value,
-  name,
-  placeholder,
-}) => {
-  const inputClasses = `${styles.inputComponentInput}`;
+const CustomInput: React.FC<IInput> = ({ label, type, name, register, placeholder, errors }) => {
   return (
-    <div className={styles.inputComponentDiv}>
-      <p
-        className={
-          error ? styles.inputComponentLabelError : styles.inputComponentLabel
-        }
-      >
-        {label}
-      </p>
-      <input
-        value={value}
-        name={name}
-        className={inputClasses}
-        onChange={onChange}
-        placeholder={placeholder}
+    <div>
+      {label && <label className={styles.inputLabel}>{label}</label>}
+      <Input
+        borderColor={errors?.[name] ? 'red' : undefined}
         type={type}
+        placeholder={placeholder}
+        {...register(name, { required: true })}
       />
+       {errors[name] && (
+        <p className={styles.errorMessage}>{errors[name].message}</p>
+      )}
     </div>
   );
 };
 
-export default Input;
+export default CustomInput;

@@ -1,133 +1,125 @@
-import LoginRegisterHeader from "@/components/LoginRegisterHeader/LoginRegisterHeader";
+import React from "react";
 import axios from "axios";
-import React, { useState } from "react";
-import logo from "../../assets/logo.svg";
-import styles from "./register.module.scss";
-import Input from "@/components/Input/Input";
 import Image from "next/image";
+import styles from "./register.module.scss";
+import logo from "public/icons/logo.svg";
+import Seo from "@/components/Seo/Seo";
+import { useForm } from "react-hook-form";
 import { Button } from "@chakra-ui/react";
+import CustomInput from "@/components/Input/Input";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string } from "yup";
+
+const schema = object({
+  name: string()
+    .required("Campo obrigatório")
+    .min(3, "Nome deve conter no mínimo 3 caracteres"),
+  email: string().email("Formato inválido").required("Campo obrigatório"),
+  phone: string().required("Campo obrigatório"),
+  cpf: string()
+    .required("Campo obrigatório")
+    .min(11, "CPF deve conter 11 caracteres")
+    .max(11, "CPF deve conter 11 caracteres"),
+  password: string()
+    .required("Campo obrigatório")
+    .min(8, "No mínimo 8 caracteres"),
+});
 
 const Register = () => {
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [cpf, setCPF] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const {
+    register,
+    handleSubmit: onSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
 
   const handleRegister = async () => {
-    await axios
-      .post("https://localhost:3000/register/register", {
-        userName: name,
-        userEmail: email,
-        userPhoneNumber: phoneNumber,
-        userCpf: cpf,
-        userPassword: password,
+    const formData = watch();
+    console.log(formData);
+    try {
+      await axios.post("http://localhost:4000/register", {
+        ...formData,
         createdAt: new Date(),
-      })
-      .then(() => {
-        setName("");
-        setPhoneNumber("");
-        setPassword("");
-        setCPF("");
       });
+      console.log("Registro bem-sucedido!");
+    } catch (error) {
+      console.error("Erro na solicitação:", error);
+    }
   };
 
   return (
     <main className={styles.registerPageMain}>
-      <LoginRegisterHeader>
-        <Image
-          src={logo}
-          alt="Ajudaí logo"
-          className={styles.registerPageLogoImg}
-        />
-      </LoginRegisterHeader>
-
+      <Seo title="Registro no Ajudaí" />
       <div className={styles.registerPageinputsBox}>
         <div className={styles.inputsBoxContainer}>
-          <div className={styles.registerPageDesktopContentContainer}>
-            <p className={styles.registerPageDesktopContentContainerP}>
-              Criar conta
-            </p>
-            <span className={styles.registerPageDesktopContentContainerSpan}>
-              <p className={styles.registerPageDesktopContentContainerSpanP}>
+          <Image
+            src={logo}
+            alt="Ajudaí logo"
+            className={styles.registerPageLogoImg}
+          />
+          <div className={styles.registerPageContentContainer}>
+            <p className={styles.registerPageContentContainerP}>Criar conta</p>
+            <span className={styles.registerPageContentContainerSpan}>
+              <p className={styles.registerPageContentContainerSpanP}>
                 Já tem conta?
               </p>
-              <p className={styles.registerPageDesktopContentContainerSpanA}>
+              <p className={styles.registerPageContentContainerSpanA}>
                 Faça login
               </p>
             </span>
           </div>
-
-          {error && <p className={styles.registerPageErrorP}>{errorMessage}</p>}
-          <Input
-            error={error}
-            value={name}
-            type={"text"}
+          <CustomInput
             label="Nome"
-            onChange={(e) => setName(e.target.value)}
+            type="text"
+            register={register}
+            name="name"
+            errors={errors}
           />
-          <Input
-            error={error}
-            value={email}
-            type={"text"}
+
+          <CustomInput
             label="Email"
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            register={register}
+            name="email"
+            errors={errors}
           />
-          <Input
-            error={error}
-            type={"number"}
-            value={phoneNumber}
+
+          <CustomInput
             label="Telefone"
-            onChange={(e) => setPhoneNumber(e.target.value)}
+            type="text"
+            register={register}
+            name="phone"
+            errors={errors}
           />
-          <Input
-            error={error}
-            value={cpf}
-            type={"text"}
+
+          <CustomInput
             label="CPF"
-            onChange={(e) => setCPF(e.target.value)}
+            type="text"
+            register={register}
+            name="cpf"
             placeholder="CPF deve conter 11 caracteres"
+            errors={errors}
           />
-          <Input
-            error={error}
-            value={password}
-            type="password"
+
+          <CustomInput
             label="Senha"
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Senha deve conter pelo menos uma letra maiúscula e caractere especial"
+            type="password"
+            register={register}
+            name="password"
+            placeholder="Senha com pelo menos letra maiúscula e caractere especial"
+            errors={errors}
           />
-          <div className={styles.registerCheckbox}>
-            <input type="checkbox" id="registerCheckbox"></input>
-            <label htmlFor="registerCheckbox">
-              Concordo com os termos de uso
-            </label>
-          </div>
+
           <div className={styles.registerPageRegisterButton}>
             <Button
               colorScheme="blackAlpha"
               size="md"
-              onClick={() => handleRegister()}
+              onClick={onSubmit(handleRegister)}
             >
               Registrar
             </Button>
           </div>
           <p className={styles.registerPagePP}>Política de Privacidade</p>
-          <span
-            className={styles.registerPageDesktopContentContainerSpanMobile}
-          >
-            <p
-              className={styles.registerPageDesktopContentContainerSpanPMobile}
-            >
-              Já tem conta?
-            </p>
-            <p
-              className={styles.registerPageDesktopContentContainerSpanAMobile}
-            >
-              Faça login
-            </p>
-          </span>
         </div>
       </div>
     </main>

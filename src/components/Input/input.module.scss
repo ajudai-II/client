@@ -1,36 +1,15 @@
 @import '../../styles/colors';
 @import '../../styles/fonts';
 
-.inputComponentDiv {
-    width: 100%;
-}
-  
-.inputComponentLabel {
+.inputLabel {
+    display: flex;
     font-family: $font-family-principal;
-    font-weight: bold;
-    font-size: 0.8rem;
-    color: $fonte-cor-primaria;
-}
+    font-weight: 700;
+    padding: 8px 0;
+  }
   
-.inputComponentLabelError {
-    font-family: $font-family-principal;
-    font-weight: bold;
-    font-size: 0.8rem;
+  .errorMessage{
+    padding: 8px 0;
+    font-size: $font-family-principal;
     color: $color-error-default;
-}
-  
-.inputComponentInput {
-    border: none;
-    border-bottom: 0.5px solid $fonte-cor-primaria;
-    width: 100%;
-    padding: 8px;
-    background-color: $background-pages-default;
-}
-  
-.inputComponentInputError {
-    border: none;
-    border-bottom: 0.5px solid $color-error-default;
-    width: 100%;
-    padding: 8px;
-    background-color: $background-pages-default;
 }
