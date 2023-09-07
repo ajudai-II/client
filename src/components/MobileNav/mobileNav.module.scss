@@ -1,0 +1,9 @@
+.mobileNav {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}

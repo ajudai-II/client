@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, Container } from "@chakra-ui/react";
 import CustomInput from "@/components/Input/Input";
-import axios from "axios";
 import Image from "next/image";
 import schema from "@/utils/schema/Login";
+import { api } from "@/services/api";
 
 const Login = () => {
   const {
@@ -18,7 +18,7 @@ const Login = () => {
   const handleLogin = async () => {
     const formData = watch();
     try {
-      await axios.post("http://localhost:4000/login", {
+      await api.post("/login", {
         ...formData,
         createdAt: new Date(),
       });

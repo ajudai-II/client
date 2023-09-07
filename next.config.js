@@ -1,15 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  
-  async rewrites() {
-    return [
+  images: {
+    remotePatterns: [
       {
-        source: '/register',
-        destination: '/register/register',
+        protocol: 'https',
+        hostname: 'img.olx.com.br',
+        port: '',
+        pathname: '/images/**',
       },
-    ];
+    ],
   },
+ 
 }
 
 module.exports = nextConfig;
