@@ -5,14 +5,7 @@ import { Box, Button, Container } from "@chakra-ui/react";
 import CustomInput from "@/components/Input/Input";
 import axios from "axios";
 import Image from "next/image";
-import { object, string } from "yup";
-
-const schema = object({
-  email: string().email("Formato inválido").required("Campo obrigatório"),
-  password: string()
-    .required("Campo obrigatório")
-    .min(8, "No mínimo 8 caracteres"),
-});
+import schema from "@/utils/schema/Login";
 
 const Login = () => {
   const {
@@ -70,12 +63,12 @@ const Login = () => {
 
           <Button
             w={"100%"}
-            margin-top={8}
+            marginTop={4}
             colorScheme="blackAlpha"
             size="md"
             type="submit"
           >
-            Registrar
+            Login
           </Button>
         </form>
       </Container>
