@@ -35,13 +35,11 @@ const Register = () => {
 
   const handleRegister = async () => {
     const formData = watch();
-    console.log(formData);
     try {
       await axios.post("http://localhost:4000/register", {
         ...formData,
         createdAt: new Date(),
       });
-      console.log("Registro bem-sucedido!");
     } catch (error) {
       console.error("Erro na solicitação:", error);
     }
