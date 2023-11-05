@@ -9,6 +9,7 @@ import { Button, useToast } from "@chakra-ui/react";
 import CustomInput from "@/components/Input/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "@/schemas/register";
+import Link from "next/link";
 
 const Register = () => {
   const {
@@ -66,9 +67,11 @@ const Register = () => {
               <p className={styles.registerPageContentContainerSpanP}>
                 Já tem conta?
               </p>
-              <p className={styles.registerPageContentContainerSpanA}>
-                Faça login
-              </p>
+              <Link href={"/login"}>
+                <p className={styles.registerPageContentContainerSpanA}>
+                  Faça login
+                </p>
+              </Link>
             </span>
           </div>
           <CustomInput
