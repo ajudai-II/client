@@ -14,7 +14,7 @@ const Header = () => {
         justifyContent={"space-between"}
         alignItems={"center"}
         flexDirection={{ base: "column", md: "row" }}
-        bgColor={"#00bbf9"}
+        bgColor={"#fff"}
       >
         <Image
           src={"/icons/logo.svg"}
