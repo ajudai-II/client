@@ -1,4 +1,3 @@
-import Header from "@/components/Header/Header";
 import HomeBanner from "@/components/HomeBanner/HomeBanner";
 import Seo from "@/components/Seo/Seo";
 import { homeMock } from "@/mocks/homeMock";
