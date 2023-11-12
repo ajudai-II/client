@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import MyDonations from "@/components/Cards/Donations/MyDonations";
 import Seo from "@/components/Seo/Seo";
 import { useGetDonationsByDonator } from "@/queries/donationQuerie";
-import { Box, Skeleton } from "@chakra-ui/react";
+import { Box, Skeleton, Spinner } from "@chakra-ui/react";
 
 const skeletonItems = [0, 1, 2, 3, 4];
 
@@ -74,6 +74,28 @@ const MyDonationsPage = () => {
 
   return (
     <Box>
+      {isFetching && (
+        <Box
+          position={"fixed"}
+          top={0}
+          left={0}
+          w={"100%"}
+          h={"100%"}
+          display={"flex"}
+          justifyContent={"center"}
+          zIndex={99999}
+          overflow={"hidden !important"}
+          bg={"blackAlpha.600"}
+        >
+          <Spinner
+            marginTop={"20%"}
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            size="xl"
+          />
+        </Box>
+      )}
       <Seo title={"Ajudaí | Minhas doações"} />
 
       <Box w={"100%"}>
@@ -87,15 +109,6 @@ const MyDonationsPage = () => {
           paddingBottom={{ base: "4.5rem", md: "0.625rem" }}
         >
           <MyDonations data={donations} />
-          {isFetching &&
-            skeletonItems.map((key) => (
-              <Skeleton
-                key={key}
-                w={{ base: "100%", md: "50%" }}
-                h={"150px"}
-                borderRadius={"10px"}
-              />
-            ))}
         </Box>
       </Box>
     </Box>
