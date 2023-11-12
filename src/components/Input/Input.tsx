@@ -22,27 +22,15 @@ const CustomInput: React.FC<IInput> = ({
   placeholder,
   errors,
 }) => {
-  const [isPassword, setIsPassword] = useState(false);
   return (
     <div>
       {label && <label className={styles.inputLabel}>{label}</label>}
-      <InputGroup>
-        <Input
-          borderColor={errors?.[name] ? "red" : undefined}
-          type={isPassword ? type : "text"}
-          placeholder={placeholder}
-          {...register(name, { required: true })}
-        />
-        {type === "password" && (
-          <InputRightElement onClick={() => setIsPassword(!isPassword)}>
-            {isPassword ? (
-              <ViewOffIcon color="gray.500" />
-            ) : (
-              <ViewIcon color="gray.500" />
-            )}
-          </InputRightElement>
-        )}
-      </InputGroup>
+      <Input
+        borderColor={errors?.[name] ? "red" : undefined}
+        type={type}
+        placeholder={placeholder}
+        {...register(name, { required: true })}
+      />
       {errors[name] && (
         <p className={styles.errorMessage}>{errors[name].message}</p>
       )}

@@ -3,11 +3,20 @@
 
   @media (max-width: 768px) {
     margin-top: 12px;
+    display: none;
   }
 }
 
 .headerDivIcons {
   @media (max-width: 768px) {
     display: none;
+  }
+}
+
+.voltar {
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
   }
 }
