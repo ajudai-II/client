@@ -46,7 +46,7 @@ const Login = () => {
             Login
           </Button>
           <Box display={"flex"} justifyContent={"center"} marginTop={"48px"}>
-            <span style={{ textAlign: "center" }}>Não tem uma conta? </span>
+            <span style={{ textAlign: "center" }}>Não tem uma conta?&nbsp; </span>
             <Link href="../register/index">
               <span style={{ textDecoration: "underline", fontWeight: 700 }}>Crie uma</span>
             </Link>

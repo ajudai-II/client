@@ -11,18 +11,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
 
 const schema = object({
-  name: string()
-    .required("Campo obrigatório")
-    .min(3, "Nome deve conter no mínimo 3 caracteres"),
+  name: string().required("Campo obrigatório").min(3, "Nome deve conter no mínimo 3 caracteres"),
   email: string().email("Formato inválido").required("Campo obrigatório"),
   phone: string().required("Campo obrigatório"),
-  cpf: string()
-    .required("Campo obrigatório")
-    .min(11, "CPF deve conter 11 caracteres")
-    .max(11, "CPF deve conter 11 caracteres"),
-  password: string()
-    .required("Campo obrigatório")
-    .min(8, "No mínimo 8 caracteres"),
+  cpf: string().required("Campo obrigatório").min(11, "CPF deve conter 11 caracteres").max(11, "CPF deve conter 11 caracteres"),
+  password: string().required("Campo obrigatório").min(8, "No mínimo 8 caracteres"),
 });
 
 const Register = () => {
@@ -50,70 +43,26 @@ const Register = () => {
       <Seo title="Registro no Ajudaí" />
       <div className={styles.registerPageinputsBox}>
         <div className={styles.inputsBoxContainer}>
-          <Image
-            src={logo}
-            alt="Ajudaí logo"
-            className={styles.registerPageLogoImg}
-          />
+          <Image src={logo} alt="Ajudaí logo" className={styles.registerPageLogoImg} />
           <div className={styles.registerPageContentContainer}>
             <p className={styles.registerPageContentContainerP}>Criar conta</p>
             <span className={styles.registerPageContentContainerSpan}>
-              <p className={styles.registerPageContentContainerSpanP}>
-                Já tem conta?
-              </p>
-              <p className={styles.registerPageContentContainerSpanA}>
-                Faça login
-              </p>
+              <p className={styles.registerPageContentContainerSpanP}>Já tem conta?</p>
+              <p className={styles.registerPageContentContainerSpanA}>Faça login</p>
             </span>
           </div>
-          <CustomInput
-            label="Nome"
-            type="text"
-            register={register}
-            name="name"
-            errors={errors}
-          />
+          <CustomInput label="Nome" type="text" register={register} name="name" errors={errors} />
 
-          <CustomInput
-            label="Email"
-            type="text"
-            register={register}
-            name="email"
-            errors={errors}
-          />
+          <CustomInput label="Email" type="text" register={register} name="email" errors={errors} />
 
-          <CustomInput
-            label="Telefone"
-            type="text"
-            register={register}
-            name="phone"
-            errors={errors}
-          />
+          <CustomInput label="Telefone" type="text" register={register} name="phone" errors={errors} />
 
-          <CustomInput
-            label="CPF"
-            type="text"
-            register={register}
-            name="cpf"
-            placeholder="CPF deve conter 11 caracteres"
-            errors={errors}
-          />
+          <CustomInput label="CPF" type="text" register={register} name="cpf" placeholder="CPF deve conter 11 caracteres" errors={errors} />
 
-          <CustomInput
-            label="Senha"
-            type="password"
-            register={register}
-            name="password"
-            placeholder="Senha com pelo menos letra maiúscula e caractere especial"
-            errors={errors}
-          />
+          <CustomInput label="Senha" type="password" register={register} name="password" placeholder="Senha com pelo menos letra maiúscula e caractere especial" errors={errors} />
 
           <div className={styles.registerPageRegisterButton}>
-            <Button
-              colorScheme="blackAlpha"
-              size="md"
-              onClick={onSubmit(handleRegister)}
-            >
+            <Button colorScheme="blackAlpha" size="md" onClick={onSubmit(handleRegister)}>
               Registrar
             </Button>
           </div>
