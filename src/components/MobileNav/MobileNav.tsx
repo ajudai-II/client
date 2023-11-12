@@ -16,6 +16,8 @@ const MobileNav = () => {
         display={"flex"}
         alignItems={"center"}
         justifyContent={"space-around"}
+        position={"fixed"}
+        bottom={0}
       >
         <StarIcon
           onClick={() => navigation.push("/my-donations")}
