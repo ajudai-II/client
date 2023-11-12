@@ -1,15 +1,15 @@
-@import '../../styles/colors';
-@import '../../styles/fonts';
+@import "../../styles/colors";
+@import "../../styles/fonts";
 
 .inputLabel {
-    display: flex;
-    font-family: $font-family-principal;
-    font-weight: 700;
-    padding: 8px 0;
-  }
-  
-  .errorMessage{
-    padding: 8px 0;
-    font-size: $font-family-principal;
-    color: $color-error-default;
+  display: flex;
+  font-family: $font-family-principal;
+  font-weight: 700;
+  padding: 8px 0;
+}
+
+.errorMessage {
+  padding: 4px 0;
+  font-size: 0.8rem;
+  color: $color-error-default;
 }
