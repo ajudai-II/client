@@ -1,5 +1,6 @@
 import { IDonation } from "@/@types/donation";
 import EditDonation from "@/components/Modal/Donations/EditDonation";
+import { useDonation } from "@/hooks/useDonation";
 import {
   Box,
   Button,
@@ -17,6 +18,12 @@ interface IMyDonations {
 
 const MyDonations: React.FC<IMyDonations> = ({ data }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { setDonation } = useDonation();
+
+  const openModal = (item: IDonation) => {
+    setDonation(item);
+    onOpen();
+  };
 
   return (
     <>
@@ -52,7 +59,11 @@ const MyDonations: React.FC<IMyDonations> = ({ data }) => {
             )}
 
             <ButtonGroup>
-              <Button bg={"blue.500"} color={"white"} onClick={() => onOpen()}>
+              <Button
+                bg={"blue.500"}
+                color={"white"}
+                onClick={() => openModal(item)}
+              >
                 Editar
               </Button>
               <Button bg={"red.500"} color={"white"}>

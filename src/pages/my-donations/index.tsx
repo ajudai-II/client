@@ -4,6 +4,7 @@ import MyDonations from "@/components/Cards/Donations/MyDonations";
 import Seo from "@/components/Seo/Seo";
 import { useGetDonationsByDonator } from "@/queries/donationQuerie";
 import { Box, Skeleton, Spinner } from "@chakra-ui/react";
+import { useDonation } from "@/hooks/useDonation";
 
 const skeletonItems = [0, 1, 2, 3, 4];
 
@@ -12,8 +13,19 @@ const MyDonationsPage = () => {
 
   const [isAtLastItem, setAtLastItem] = useState(false);
 
-  const { data, isLoading, isError, fetchNextPage, hasNextPage, isFetching } =
-    useGetDonationsByDonator(`6546e2b5f8510b2efe3b0fea`, page);
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    refetch,
+    isRefetching,
+  } = useGetDonationsByDonator(`6546e2b5f8510b2efe3b0fea`, page);
+
+  const { donationUpdated, setDonation } = useDonation();
+
   const donations = data?.pages.flatMap((page) => page.data) || [];
 
   const checkPosition = useMemo(() => {
@@ -24,6 +36,8 @@ const MyDonationsPage = () => {
       setAtLastItem(currentPosition >= documentHeight - windowHeight);
 
       if (currentPosition >= documentHeight - windowHeight) {
+        setPage(page + 1);
+
         fetchNextPage();
       }
     };
@@ -34,14 +48,31 @@ const MyDonationsPage = () => {
   }, [checkPosition]);
 
   useEffect(() => {
-    setPage(page + 1);
-
     window.addEventListener("scroll", checkPosition);
 
     return () => {
       window.removeEventListener("scroll", checkPosition);
     };
   }, [handleScroll]);
+
+  useEffect(() => {
+    setPage(1);
+    setDonation({
+      _id: "",
+      title: "",
+      description: "",
+      amount: 0,
+      isValidated: false,
+      donator: {
+        name: "",
+        email: "",
+        phone: "",
+        adress: "",
+        _id: "",
+      },
+    });
+    refetch();
+  }, [donationUpdated]);
 
   if (isLoading)
     return (
@@ -74,28 +105,29 @@ const MyDonationsPage = () => {
 
   return (
     <Box>
-      {isFetching && (
-        <Box
-          position={"fixed"}
-          top={0}
-          left={0}
-          w={"100%"}
-          h={"100%"}
-          display={"flex"}
-          justifyContent={"center"}
-          zIndex={99999}
-          overflow={"hidden !important"}
-          bg={"blackAlpha.600"}
-        >
-          <Spinner
-            marginTop={"20%"}
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            size="xl"
-          />
-        </Box>
-      )}
+      {isFetching ||
+        (isRefetching && (
+          <Box
+            position={"fixed"}
+            top={0}
+            left={0}
+            w={"100%"}
+            h={"100%"}
+            display={"flex"}
+            justifyContent={"center"}
+            zIndex={99999}
+            overflow={"hidden !important"}
+            bg={"blackAlpha.600"}
+          >
+            <Spinner
+              marginTop={"20%"}
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              size="xl"
+            />
+          </Box>
+        ))}
       <Seo title={"Ajudaí | Minhas doações"} />
 
       <Box w={"100%"}>
