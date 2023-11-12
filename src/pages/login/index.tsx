@@ -1,11 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button, Container, Link, flexbox } from "@chakra-ui/react";
+import { Box, Button, Container } from "@chakra-ui/react";
 import CustomInput from "@/components/Input/Input";
 import Image from "next/image";
 import schema from "@/utils/schema/Login";
 import { api } from "@/services/api";
+import { AxiosError } from "axios";
 
 const Login = () => {
   const {
@@ -14,35 +15,55 @@ const Login = () => {
     watch,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
+  const toast = useToast();
 
   const handleLogin = async () => {
     const formData = watch();
     try {
       await api.post("/login", {
         ...formData,
-        createdAt: new Date(),
       });
     } catch (error) {
-      console.error("Erro na solicitação:", error);
+      const errorMessage =
+        (error as AxiosError<{ message: string }>).response?.data?.message ||
+        "Erro desconhecido";
+      toast({
+        title: errorMessage,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
-
   return (
     <Box display={"flex"} justifyContent={"center"} alignItems={"center"} w={"100%"} h={"100dvh"}>
       <Container>
         <form onSubmit={onSubmit(handleLogin)}>
-          <Box display={"flex"} justifyContent={"center"} marginBottom={"80px"}>
-            <Image src={"/icons/logo.svg"} alt={"logo do ajudai"} width={192} height={192} />
-          </Box>
+          <Image
+            src={"/icons/logo.svg"}
+            alt={"logo do ajudai"}
+            width={192}
+            height={192}
+          />
 
           <CustomInput label="Email" type="text" register={register} name="email" errors={errors} />
 
-          <CustomInput label="Senha" type="password" register={register} name="password" placeholder="Digite sua senha" errors={errors} />
-          <Link href="#">
-            <p style={{ textDecoration: "underline", marginTop: "24px", marginBottom: "40px" }}>Esqueci minha senha</p>
-          </Link>
+          <CustomInput
+            label="Senha"
+            type="password"
+            register={register}
+            name="password"
+            placeholder="Digite sua senha"
+            errors={errors}
+          />
 
-          <Button w={"100%"} marginTop={4} colorScheme="blackAlpha" size="md" type="submit">
+          <Button
+            w={"100%"}
+            marginTop={4}
+            colorScheme="blackAlpha"
+            size="md"
+            type="submit"
+          >
             Login
           </Button>
           <Box display={"flex"} justifyContent={"center"} marginTop={"48px"}>
