@@ -52,6 +52,20 @@ const EditDonation: React.FC<IEditDonation> = ({ isOpen, onClose }) => {
             duration: 9000,
             isClosable: true,
           });
+          setDonation({
+            _id: "",
+            title: "",
+            description: "",
+            amount: 0,
+            isValidated: false,
+            donator: {
+              name: "",
+              email: "",
+              phone: "",
+              adress: "",
+              _id: "",
+            },
+          });
           setDonationUpdated(res.data);
           onClose();
         });
@@ -81,6 +95,7 @@ const EditDonation: React.FC<IEditDonation> = ({ isOpen, onClose }) => {
         _id: "",
       },
     });
+    setDonationUpdated({});
     onClose();
   };
 

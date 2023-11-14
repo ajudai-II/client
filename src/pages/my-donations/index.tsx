@@ -3,60 +3,33 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import MyDonations from "@/components/Cards/Donations/MyDonations";
 import Seo from "@/components/Seo/Seo";
 import { useGetDonationsByDonator } from "@/queries/donationQuerie";
-import { Box, Skeleton, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Skeleton,
+  Spinner,
+  Text,
+} from "@chakra-ui/react";
 import { useDonation } from "@/hooks/useDonation";
+import { set } from "react-hook-form";
 
 const skeletonItems = [0, 1, 2, 3, 4];
 
 const MyDonationsPage = () => {
   const [page, setPage] = useState<number>(1);
 
-  const [isAtLastItem, setAtLastItem] = useState(false);
-
-  const {
-    data,
-    isLoading,
-    isError,
-    fetchNextPage,
-    hasNextPage,
-    isFetching,
-    refetch,
-    isRefetching,
-  } = useGetDonationsByDonator(`6546e2b5f8510b2efe3b0fea`, page);
+  const { data, isLoading, isError, isFetching, refetch, isRefetching } =
+    useGetDonationsByDonator(`6546e2b5f8510b2efe3b0fea`, page);
 
   const { donationUpdated, setDonation } = useDonation();
 
-  const donations = data?.pages.flatMap((page) => page.data) || [];
-
-  const checkPosition = useMemo(() => {
-    return () => {
-      const windowHeight = window.innerHeight;
-      const currentPosition = window.scrollY;
-      const documentHeight = document.documentElement.scrollHeight;
-      setAtLastItem(currentPosition >= documentHeight - windowHeight);
-
-      if (currentPosition >= documentHeight - windowHeight) {
-        setPage(page + 1);
-
-        fetchNextPage();
-      }
-    };
-  }, [isAtLastItem, fetchNextPage, hasNextPage]);
-
-  const handleScroll = useCallback(() => {
-    checkPosition();
-  }, [checkPosition]);
+  useEffect(() => {
+    refetch();
+  }, [page, data]);
 
   useEffect(() => {
-    window.addEventListener("scroll", checkPosition);
-
-    return () => {
-      window.removeEventListener("scroll", checkPosition);
-    };
-  }, [handleScroll]);
-
-  useEffect(() => {
-    setPage(1);
+    refetch();
     setDonation({
       _id: "",
       title: "",
@@ -71,8 +44,13 @@ const MyDonationsPage = () => {
         _id: "",
       },
     });
-    refetch();
   }, [donationUpdated]);
+
+  const previousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
 
   if (isLoading)
     return (
@@ -140,7 +118,29 @@ const MyDonationsPage = () => {
           marginTop={{ base: "3.5rem", md: 0 }}
           paddingBottom={{ base: "4.5rem", md: "0.625rem" }}
         >
-          <MyDonations data={donations} />
+          <MyDonations data={data?.data} />
+          <ButtonGroup
+            w={{ base: "100%", md: "50%" }}
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
+            <Button
+              disabled={page === 1 ? true : false}
+              cursor={page === 1 ? "not-allowed" : "pointer"}
+              onClick={() => previousPage()}
+            >
+              Anterior
+            </Button>
+            <Text>Página {page}</Text>
+            <Button
+              background={"blackAlpha.800"}
+              color={"white"}
+              onClick={() => setPage(page + 1)}
+            >
+              Próxima
+            </Button>
+          </ButtonGroup>
         </Box>
       </Box>
     </Box>
