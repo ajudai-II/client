@@ -1,6 +1,9 @@
 import { IDonation } from "@/@types/donation";
+import DeleteDonation from "@/components/Modal/Donations/DeleteDonation";
 import EditDonation from "@/components/Modal/Donations/EditDonation";
 import { useDonation } from "@/hooks/useDonation";
+import { useGetDonationsByDonator } from "@/queries/donationQuerie";
+import { api } from "@/services/api";
 import {
   Box,
   Button,
@@ -9,6 +12,7 @@ import {
   Stack,
   Text,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -18,11 +22,21 @@ interface IMyDonations {
 
 const MyDonations: React.FC<IMyDonations> = ({ data }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: deleteIsOpen,
+    onOpen: deleteOnOpen,
+    onClose: deleteOnClose,
+  } = useDisclosure();
   const { setDonation } = useDonation();
 
   const openModal = (item: IDonation) => {
     setDonation(item);
     onOpen();
+  };
+
+  const openDeleteModal = (item: IDonation) => {
+    setDonation(item);
+    deleteOnOpen();
   };
 
   return (
@@ -66,7 +80,11 @@ const MyDonations: React.FC<IMyDonations> = ({ data }) => {
               >
                 Editar
               </Button>
-              <Button bg={"red.500"} color={"white"}>
+              <Button
+                bg={"red.500"}
+                color={"white"}
+                onClick={() => openDeleteModal(item)}
+              >
                 Excluir
               </Button>
             </ButtonGroup>
@@ -74,6 +92,7 @@ const MyDonations: React.FC<IMyDonations> = ({ data }) => {
         </Box>
       ))}
       <EditDonation isOpen={isOpen} onClose={onClose} />
+      <DeleteDonation isOpen={deleteIsOpen} onClose={deleteOnClose} />
     </>
   );
 };

@@ -8,10 +8,8 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
   FormControl,
   FormLabel,
-  Input,
   useToast,
 } from "@chakra-ui/react";
 import { useDonation } from "@/hooks/useDonation";
@@ -27,15 +25,22 @@ interface IEditDonation {
 }
 
 const EditDonation: React.FC<IEditDonation> = ({ isOpen, onClose }) => {
+  const { donation, setDonation, setDonationUpdated } = useDonation();
   const {
     register,
     handleSubmit: onSubmit,
     watch,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      title: donation?.title,
+      description: donation?.description,
+      amount: donation?.amount,
+    },
+  });
   const initialRef: any = React.useRef(null);
   const finalRef: any = React.useRef(null);
-  const { donation, setDonation, setDonationUpdated } = useDonation();
   const toast = useToast();
 
   const handleEditDonation = async () => {
