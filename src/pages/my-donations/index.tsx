@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import MyDonations from "@/components/Cards/Donations/MyDonations";
+import CardMyDonations from "@/components/Cards/Donations/CardMyDonations";
 import Seo from "@/components/Seo/Seo";
 import { useGetDonationsByDonator } from "@/queries/donationQuerie";
 import {
@@ -12,17 +12,16 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useDonation } from "@/hooks/useDonation";
-import { set } from "react-hook-form";
+import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 
 const skeletonItems = [0, 1, 2, 3, 4];
 
 const MyDonationsPage = () => {
+  const { donationUpdated, setDonation } = useDonation();
   const [page, setPage] = useState<number>(1);
 
   const { data, isLoading, isError, isFetching, refetch, isRefetching } =
     useGetDonationsByDonator(`6546e2b5f8510b2efe3b0fea`, page);
-
-  const { donationUpdated, setDonation } = useDonation();
 
   useEffect(() => {
     refetch();
@@ -118,7 +117,7 @@ const MyDonationsPage = () => {
           marginTop={{ base: "3.5rem", md: 0 }}
           paddingBottom={{ base: "4.5rem", md: "0.625rem" }}
         >
-          <MyDonations data={data?.data} />
+          <CardMyDonations data={data?.data} />
           <ButtonGroup
             w={{ base: "100%", md: "50%" }}
             display={"flex"}
@@ -129,16 +128,20 @@ const MyDonationsPage = () => {
               disabled={page === 1 ? true : false}
               cursor={page === 1 ? "not-allowed" : "pointer"}
               onClick={() => previousPage()}
+              borderRadius={"50%"}
+              p={"0.5rem"}
             >
-              Anterior
+              <ArrowBackIcon />
             </Button>
             <Text>Página {page}</Text>
             <Button
-              background={"blackAlpha.800"}
+              background={"blackAlpha.900"}
               color={"white"}
               onClick={() => setPage(page + 1)}
+              borderRadius={"50%"}
+              p={"0.5rem"}
             >
-              Próxima
+              <ArrowForwardIcon />
             </Button>
           </ButtonGroup>
         </Box>

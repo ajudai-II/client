@@ -24,7 +24,7 @@ interface IEditDonation {
   onClose: () => void;
 }
 
-const EditDonation: React.FC<IEditDonation> = ({ isOpen, onClose }) => {
+const ModalEditDonation: React.FC<IEditDonation> = ({ isOpen, onClose }) => {
   const { donation, setDonation, setDonationUpdated } = useDonation();
   const {
     register,
@@ -149,17 +149,26 @@ const EditDonation: React.FC<IEditDonation> = ({ isOpen, onClose }) => {
 
         <ModalFooter>
           <Button
-            colorScheme="blue"
+            colorScheme="gray"
+            variant="outline"
+            fontSize={{ base: "0.8rem", md: "1rem" }}
+            onClick={() => handleCancel()}
+          >
+            Cancel
+          </Button>
+          <Button
+            bg="blackAlpha.900"
+            color={"white"}
+            fontSize={{ base: "0.8rem", md: "1rem" }}
             mr={3}
             onClick={() => handleEditDonation()}
           >
             Editar
           </Button>
-          <Button onClick={() => handleCancel()}>Cancel</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
 
-export default EditDonation;
+export default ModalEditDonation;

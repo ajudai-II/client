@@ -25,7 +25,10 @@ interface IDeleteDonation {
   onClose: () => void;
 }
 
-const DeleteDonation: React.FC<IDeleteDonation> = ({ isOpen, onClose }) => {
+const ModalDeleteDonation: React.FC<IDeleteDonation> = ({
+  isOpen,
+  onClose,
+}) => {
   const { donation, setDonation, setDonationUpdated } = useDonation();
   const { refetch } = useGetDonationsByDonator(`6546e2b5f8510b2efe3b0fea`);
 
@@ -93,17 +96,26 @@ const DeleteDonation: React.FC<IDeleteDonation> = ({ isOpen, onClose }) => {
 
         <ModalFooter>
           <Button
-            colorScheme="blue"
+            colorScheme="gray"
+            variant="outline"
+            fontSize={{ base: "0.8rem", md: "1rem" }}
+            onClick={() => handleCancel()}
+          >
+            Cancelar
+          </Button>
+          <Button
+            bg="blackAlpha.900"
+            color={"white"}
+            fontSize={{ base: "0.8rem", md: "1rem" }}
             mr={3}
             onClick={() => handleDeleteDonation()}
           >
             Excluir
           </Button>
-          <Button onClick={() => handleCancel()}>Cancel</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
 
-export default DeleteDonation;
+export default ModalDeleteDonation;
