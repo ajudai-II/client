@@ -3,6 +3,7 @@ import { Box, Input, InputGroup, InputRightElement, useMediaQuery } from "@chakr
 import Image from "next/image";
 import React from "react";
 import styles from "./header.module.scss";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const [isLargerThan1200, isSmallerThan768] = useMediaQuery([

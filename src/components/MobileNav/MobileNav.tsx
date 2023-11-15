@@ -11,6 +11,8 @@ const iconsNav = [
 ];
 
 const MobileNav = () => {
+  const navigation = useRouter();
+
   return (
     <nav className={style.mobileNav}>
       <Box
