@@ -10,22 +10,6 @@ import CustomInput from "@/components/Input/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "@/schemas/register";
 import Link from "next/link";
-import { object, string } from "yup";
-
-const schema = object({
-  name: string()
-    .required("Campo obrigatório")
-    .min(3, "Nome deve conter no mínimo 3 caracteres"),
-  email: string().email("Formato inválido").required("Campo obrigatório"),
-  phone: string().required("Campo obrigatório"),
-  cpf: string()
-    .required("Campo obrigatório")
-    .min(11, "CPF deve conter 11 caracteres")
-    .max(11, "CPF deve conter 11 caracteres"),
-  password: string()
-    .required("Campo obrigatório")
-    .min(8, "No mínimo 8 caracteres"),
-});
 
 const Register = () => {
   const {
@@ -88,9 +72,6 @@ const Register = () => {
                   Faça login
                 </p>
               </Link>
-              <p className={styles.registerPageContentContainerSpanA}>
-                Faça login
-              </p>
             </span>
           </div>
           <CustomInput
