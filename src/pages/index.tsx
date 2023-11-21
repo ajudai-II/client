@@ -39,7 +39,6 @@ const Home = () => {
   return (
     <>
       <Seo title={"Ajudaí | Homepage"} />
-      <Header />
       <Box
         display="flex"
         flexDirection={isLargerThan768 ? "row" : "column-reverse"}
