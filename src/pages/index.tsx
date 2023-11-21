@@ -16,7 +16,7 @@ import {
 } from "react-icons/gi";
 import Carousel from "@/components/Carousel/Carousel";
 import Header from "@/components/Header/Header";
-import HomeDonation from "@/components/HomeDonation/homeDonation"; 
+import HomeDonation from "@/components/HomeDonation/homeDonation";
 import MobileNav from "@/components/MobileNav/MobileNav";
 import Seo from "@/components/Seo/Seo";
 import Sidebar from "@/components/Sidebar/Sidebar";
@@ -45,9 +45,7 @@ const Home = () => {
         flexDirection={isLargerThan768 ? "row" : "column-reverse"}
       >
         {isLargerThan768 && <Sidebar />}
-        <Box
-          w={isLargerThan768 ? (isLargerThan992 ? "80%" : "75%") : "100%"}
-        >
+        <Box w={isLargerThan768 ? (isLargerThan992 ? "80%" : "75%") : "100%"}>
           <HStack
             justify="center"
             gap={"2rem"}

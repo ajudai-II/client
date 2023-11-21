@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text, Button, useMediaQuery } from "@chakra-ui/react";
-import styles from "./sidebar.module.scss";
+import styles from "./Sidebar.module.scss";
 
 const Sidebar = () => {
   const [isLargerThan768, isLargerThan992] = useMediaQuery([
