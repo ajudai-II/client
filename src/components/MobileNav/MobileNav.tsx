@@ -8,6 +8,7 @@ import {
   BsXLg,
 } from "react-icons/bs";
 import { useRouter } from "next/router";
+import { headerRoutes } from "@/const/pages";
 
 const iconsNav = [
   { icon: BsFillHouseDoorFill, label: "Home", path: "/" },
@@ -18,34 +19,39 @@ const iconsNav = [
 
 const MobileNav = () => {
   const navigation = useRouter();
+  const { asPath } = useRouter();
 
   return (
-    <nav className={style.mobileNav}>
-      <Box
-        w="100%"
-        p={1.5}
-        bgColor="#A8B5E0"
-        display="flex"
-        alignItems="center"
-        justifyContent="space-around"
-      >
-        {iconsNav.map(({ icon: Icon, label, path }, index) => (
+    <>
+      {headerRoutes.includes(asPath) ? null : (
+        <nav className={style.mobileNav}>
           <Box
-            key={index}
-            textAlign="center"
+            w="100%"
+            p={1.5}
+            bgColor="#A8B5E0"
             display="flex"
-            flexDirection="column"
             alignItems="center"
-            onClick={() => navigation.push(path)}
+            justifyContent="space-around"
           >
-            <Icon color="#fff" size={24} cursor="pointer" />
-            <Text color="#fff" fontSize="xs" mt={1} fontWeight="medium">
-              {label}
-            </Text>
+            {iconsNav.map(({ icon: Icon, label, path }, index) => (
+              <Box
+                key={index}
+                textAlign="center"
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                onClick={() => navigation.push(path)}
+              >
+                <Icon color="#fff" size={24} cursor="pointer" />
+                <Text color="#fff" fontSize="xs" mt={1} fontWeight="medium">
+                  {label}
+                </Text>
+              </Box>
+            ))}
           </Box>
-        ))}
-      </Box>
-    </nav>
+        </nav>
+      )}
+    </>
   );
 };
 
