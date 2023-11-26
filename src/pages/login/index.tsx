@@ -77,6 +77,7 @@ const Login = () => {
           <CustomInput
             label="Email"
             type="text"
+            placeholder="Digite sua email"
             register={register}
             name="email"
             errors={errors}
