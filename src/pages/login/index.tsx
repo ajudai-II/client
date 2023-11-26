@@ -84,7 +84,7 @@ const Login = () => {
 
           <CustomInput
             label="Senha"
-            type="text"
+            type="password"
             register={register}
             name="password"
             placeholder="Digite sua senha"

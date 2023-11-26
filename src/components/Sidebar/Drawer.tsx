@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import nookies from "nookies";
 import {
   Drawer,
   DrawerBody,
@@ -11,36 +12,31 @@ import {
   Box,
   Text,
   Button,
-  useDisclosure,
   Input,
 } from "@chakra-ui/react";
 import styles from "./Sidebar.module.scss";
 
 interface IDrawerComponent {
   isOpen: boolean;
-  onOpen: () => void;
   onClose: () => void;
 }
 
-const DrawerComponent: React.FC<IDrawerComponent> = ({
-  isOpen,
-  onOpen,
-  onClose,
-}) => {
-  const [isLargerThan768, isLargerThan992] = useMediaQuery([
-    "(min-width: 768px)",
-    "(min-width: 992px)",
-  ]);
+const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
   const btnRef: any = useRef();
-
-  const sidebarWidth = isLargerThan992
-    ? "25%"
-    : isLargerThan768
-    ? "30%"
-    : "100%";
 
   const menuItems = ["Home", "Perfil", "Pedidos"];
 
+  const handleLogout = () => {
+    try {
+      localStorage.clear();
+      nookies.destroy(null, "token", null);
+      nookies.destroy(null, "refreshToken", null);
+
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("logout error", error);
+    }
+  };
   return (
     <Drawer
       isOpen={isOpen}
@@ -74,6 +70,7 @@ const DrawerComponent: React.FC<IDrawerComponent> = ({
             fontWeight={"700"}
             colorScheme="blackAlpha"
             mt={16}
+            onClick={handleLogout}
           >
             Sair
           </Button>

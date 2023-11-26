@@ -1,12 +1,8 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
 import style from "./mobileNav.module.scss";
-import {
-  BsFillHouseDoorFill,
-  BsFillPersonFill,
-  BsList,
-  BsXLg,
-} from "react-icons/bs";
+import { BsFillHouseDoorFill, BsFillPersonFill, BsList } from "react-icons/bs";
+import { LuSettings } from "react-icons/lu";
 import { useRouter } from "next/router";
 import { headerRoutes } from "@/const/pages";
 
@@ -14,7 +10,7 @@ const iconsNav = [
   { icon: BsFillHouseDoorFill, label: "Home", path: "/" },
   { icon: BsFillPersonFill, label: "Perfil", path: "/profile" },
   { icon: BsList, label: "Doações", path: "/my-donations" },
-  { icon: BsXLg, label: "Sair", path: "/logout" },
+  { icon: LuSettings, label: "Opções", path: "/settings" },
 ];
 
 const MobileNav = () => {
