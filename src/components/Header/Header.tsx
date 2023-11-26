@@ -1,25 +1,14 @@
-import { SearchIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Input,
-  InputGroup,
-  InputRightElement,
-  useMediaQuery,
-} from "@chakra-ui/react";
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
+import { SearchIcon } from "@chakra-ui/icons";
+import { Box, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import styles from "./header.module.scss";
 import { useRouter } from "next/router";
 import { headerRoutes } from "@/const/pages";
+import Siderbar from "../Sidebar/Siderbar";
 
 const Header = () => {
-  const [isLargerThan1200, isSmallerThan768] = useMediaQuery([
-    "(min-width: 1200px)",
-    "(max-width: 767px)",
-  ]);
   const { asPath } = useRouter();
-  const logoWidth = isLargerThan1200 ? "20%" : "25%";
-  const boxWidth = isSmallerThan768 ? "90%" : "100%";
 
   return (
     <>
@@ -27,28 +16,27 @@ const Header = () => {
         <header>
           <Box
             w={"100%"}
-            paddingBottom={4}
-            paddingTop={4}
+            paddingBottom={2}
+            paddingTop={2}
             display={"flex"}
             justifyContent={"space-between"}
             alignItems={"center"}
             flexDirection={{ base: "column", md: "row" }}
-            bgColor={"#A8B5E0"}
+            bgColor={"#fff"}
           >
-            <Box
-              w={{ base: "100%", md: logoWidth }}
-              display={"flex"}
-              justifyContent={"center"}
-            >
-              <Image
-                src={"/icons/logo.svg"}
-                alt={"logo do ajudai"}
-                width={148}
-                height={148}
-              />
+            <Box display={"flex"} alignItems={"center"}>
+              <Siderbar />
+              <Box display={"flex"} justifyContent={"center"}>
+                <Image
+                  src={"/icons/logo.svg"}
+                  alt={"logo do ajudai"}
+                  width={124}
+                  height={124}
+                />
+              </Box>
             </Box>
 
-            <Box width={{ base: "90%", md: "60%" }}>
+            <Box w={{ base: "100%", md: "60%" }}>
               <form className={styles.headerForm}>
                 <InputGroup>
                   <Input

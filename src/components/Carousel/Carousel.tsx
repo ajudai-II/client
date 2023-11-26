@@ -3,34 +3,42 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import HomeBanner from "../HomeBanner/HomeBanner";
-import { homeMock } from "@/mocks/homeMock";
+import homeMock from "@/mocks/homeMock";
 
 const Carousel = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false,
+    autoplay: true,
+    speed: 4000,
+    autoplaySpeed: 4000,
+    cssEase: "linear",
+    appendDots: (dots: any) => (
+      <div
+        style={{
+          padding: "0.2rem",
+        }}
+      >
+        <ul
+          style={{
+            margin: "0px",
+          }}
+        >
+          {dots}
+        </ul>
+      </div>
+    ),
   };
 
-  const slides = homeMock.map((item) => (
-    <div key={item.id}>
-      <HomeBanner
-        key={item.id}
-        picture={item.picture}
-        alt=""
-        title={item.title}
-      />
+  const slides = homeMock.map((item, key) => (
+    <div key={key}>
+      <HomeBanner picture={item.picture} alt="" title={item.title} />
     </div>
   ));
 
-  return (
-    <div>
-      <Slider {...settings}>{slides}</Slider>
-    </div>
-  );
+  return <Slider {...settings}>{slides}</Slider>;
 };
 
 export default Carousel;

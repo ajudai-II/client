@@ -15,15 +15,14 @@ import {
   GiTicket,
 } from "react-icons/gi";
 import Carousel from "@/components/Carousel/Carousel";
-import Header from "@/components/Header/Header";
-import HomeDonation from "@/components/HomeDonation/homeDonation";
 import MobileNav from "@/components/MobileNav/MobileNav";
 import Seo from "@/components/Seo/Seo";
-import Sidebar from "@/components/Sidebar/Sidebar";
-import { homeMock } from "@/mocks/homeMock";
+import homeMock from "@/mocks/homeMock";
+import SearchBar from "@/components/Searching/SearchBar/SearchBar";
+import CardHome from "@/components/Cards/Home/CardHome";
 
 const categories = [
-  { icon: <GiKnifeFork size={32} />, label: "Alimentação" },
+  { icon: <GiKnifeFork size={32} />, label: "Alimentos" },
   { icon: <GiClothes size={32} />, label: "Vestuário" },
   { icon: <GiBookmarklet size={32} />, label: "Educação" },
   { icon: <GiHealthNormal size={32} />, label: "Saúde" },
@@ -40,46 +39,73 @@ const Home = () => {
     <>
       <Seo title={"Ajudaí | Homepage"} />
       <Box
+        w={"100%"}
         display="flex"
+        alignItems={"center"}
         flexDirection={isLargerThan768 ? "row" : "column-reverse"}
       >
-        {isLargerThan768 && <Sidebar />}
-        <Box w={isLargerThan768 ? (isLargerThan992 ? "80%" : "75%") : "100%"}>
-          <HStack
-            justify="center"
-            gap={"2rem"}
-            align="center"
-            fontSize="lg"
-            mt={12}
-            mb={8}
+        <Box w={isLargerThan768 ? (isLargerThan992 ? "100%" : "75%") : "100%"}>
+          {isLargerThan768 ? null : (
+            <Box marginTop={"4rem"}>
+              <SearchBar />
+            </Box>
+          )}
+
+          <Box p={"0 1rem"}>
+            <HStack
+              justify="center"
+              gap={"0.625rem"}
+              align="center"
+              fontSize="lg"
+              mt={4}
+              mb={4}
+            >
+              {categories.map(({ icon, label }, index) => (
+                <Box key={index}>
+                  <Circle
+                    size={isLargerThan992 ? "72px" : "64px"}
+                    bg="#E9E9E9"
+                    color="#fff"
+                    cursor="pointer"
+                  >
+                    {icon}
+                  </Circle>
+                  <Text
+                    mt={0.5}
+                    fontSize="sm"
+                    fontWeight="medium"
+                    textAlign={"center"}
+                  >
+                    {label}
+                  </Text>
+                </Box>
+              ))}
+            </HStack>
+          </Box>
+          <Box
+            w={isLargerThan992 ? "100%" : "unset"}
+            display={"flex"}
+            justifyContent={"center"}
           >
-            {categories.map(({ icon, label }, index) => (
-              <VStack key={index}>
-                <Circle
-                  size={isLargerThan992 ? "72px" : "64px"}
-                  bg="#E9E9E9"
-                  color="#fff"
-                  cursor="pointer"
-                >
-                  {icon}
-                </Circle>
-                <Text mt={0.5} fontSize="sm" fontWeight="medium">
-                  {label}
-                </Text>
-              </VStack>
-            ))}
-          </HStack>
-          <Carousel />
-          <VStack spacing="20px" mt="64px" mb="72px">
-            {homeMock.map((item) => (
-              <HomeDonation
-                key={item.id}
-                picture={item.picture}
-                title={item.title}
-                alt={item.description}
-              />
-            ))}
-          </VStack>
+            <Box w={isLargerThan992 ? "50%" : "100%"}>
+              <Carousel />
+            </Box>
+          </Box>
+
+          <Box
+            w={isLargerThan992 ? "100%" : "unset"}
+            display={"flex"}
+            justifyContent={"center"}
+          >
+            <VStack
+              w={isLargerThan992 ? "88%" : "unset"}
+              spacing="10px"
+              mt="40px"
+              mb="72px"
+            >
+              <CardHome data={homeMock} />
+            </VStack>
+          </Box>
         </Box>
       </Box>
       {!isLargerThan992 && <MobileNav />}

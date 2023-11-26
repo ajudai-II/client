@@ -25,14 +25,14 @@ const HomeBanner: React.FC<IHomeBannerProps> = ({ picture, alt, title }) => {
       p={{ md: 8 }}
     >
       <Box
-        w="90%"
+        w="95%"
         height={
           isLargerThan576
             ? isLargerThan768
               ? isLargerThan992
-                ? "400px"
-                : "350px"
-              : "300px"
+                ? "350px"
+                : "320px"
+              : "280px"
             : "250px"
         }
         marginTop={4}

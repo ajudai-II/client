@@ -4,6 +4,7 @@ import { ArrowBackIcon, BellIcon } from "@chakra-ui/icons";
 import { Box, Button, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
+import Siderbar from "../Sidebar/Siderbar";
 
 const HeaderMobile = () => {
   const navigation = useRouter();
@@ -36,19 +37,24 @@ const HeaderMobile = () => {
               <ArrowBackIcon />
             </Button>
           )}
+          {asPath === "/" && <Siderbar />}
 
           <Heading size={"md"} textAlign={"center"}>
             {routesEnum[asPath as keyof typeof routesEnum] || ""}
           </Heading>
-          <Button
-            display={"flex"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            bg={"none"}
-            title="Notifications"
-          >
-            <BellIcon />
-          </Button>
+          {asPath !== "/" && <Siderbar />}
+
+          {asPath === "/" && (
+            <Button
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              bg={"none"}
+              title="Notifications"
+            >
+              <BellIcon w={8} h={8} p={0} m={0} />
+            </Button>
+          )}
         </>
       )}
     </Box>

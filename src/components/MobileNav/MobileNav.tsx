@@ -28,7 +28,7 @@ const MobileNav = () => {
           <Box
             w="100%"
             p={1.5}
-            bgColor="#A8B5E0"
+            bgColor="#000"
             display="flex"
             alignItems="center"
             justifyContent="space-around"

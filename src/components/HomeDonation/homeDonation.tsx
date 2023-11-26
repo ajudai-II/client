@@ -23,7 +23,7 @@ const HomeDonation: React.FC<IHomeDonationProps> = ({
 
   return (
     <Box
-      width={isLargerThan768 ? "70%" : "60%"}
+      width={isLargerThan768 ? "70%" : "95%"}
       display="flex"
       gap={6}
       justifyContent="center"
@@ -65,17 +65,17 @@ const HomeDonation: React.FC<IHomeDonationProps> = ({
           {alt.length > 50 ? `${alt.substring(0, 50)}...` : alt}
         </Text>
 
-          <Button
-            as="a"
-            variant="solid"
-            colorScheme="pink"
-            marginTop={4}
-            fontSize={isLargerThan992 ? "md" : "sm"}
-            width={isLargerThan992 ? "250px" : "150px"}
-            cursor="pointer"
-          >
-            Ver pedido
-          </Button>
+        <Button
+          as="a"
+          variant="solid"
+          colorScheme="pink"
+          marginTop={4}
+          fontSize={isLargerThan992 ? "md" : "sm"}
+          width={isLargerThan992 ? "250px" : "150px"}
+          cursor="pointer"
+        >
+          Ver pedido
+        </Button>
       </Box>
     </Box>
   );
