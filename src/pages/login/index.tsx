@@ -7,6 +7,7 @@ import Image from "next/image";
 import schema from "@/utils/schema/Login";
 import { api } from "@/services/api";
 import { AxiosError } from "axios";
+import { parseCookies, setCookie, destroyCookie } from "nookies";
 
 const Login = () => {
   const {
@@ -20,9 +21,23 @@ const Login = () => {
   const handleLogin = async () => {
     const formData = watch();
     try {
-      await api.post("/login", {
-        ...formData,
-      });
+      await api
+        .post("/login", {
+          ...formData,
+        })
+        .then(async (res) => {
+          const cookies = parseCookies();
+          const token: string = res.data.token;
+          const refreshToken = res.data.refresh_token;
+          setCookie(null, "token", token, {
+            maxAge: 30 * 24 * 60 * 60,
+            path: "/",
+          });
+          setCookie(null, "refreshToken", refreshToken, {
+            path: "/",
+          });
+          window.location.href = "/";
+        });
     } catch (error) {
       const errorMessage =
         (error as AxiosError<{ message: string }>).response?.data?.message ||
