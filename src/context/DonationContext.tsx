@@ -26,6 +26,8 @@ export const DonationContext = createContext<DonationContextType>({
       adress: "",
       _id: "",
     },
+    imageUrl: "",
+    category: "",
   },
   setDonation: () => {},
   donationUpdated: {},
@@ -46,6 +48,8 @@ const DonationContextProvider = ({ children }: IChildren) => {
       adress: "",
       _id: "",
     },
+    imageUrl: "",
+    category: "",
   });
   const [donationUpdated, setDonationUpdated] = useState({});
 

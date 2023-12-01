@@ -6,14 +6,13 @@ const publicRoutes = ["/login", "/register"]
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
 
-  if (token && publicRoutes.includes(request.nextUrl.pathname)) {
-    const home_url = request.nextUrl.clone();
-    home_url.pathname = '/'
-    NextResponse.rewrite(home_url)
-    return NextResponse.redirect(home_url)
+  if (token) {
+    return NextResponse.next();
   }
 
-  if (!token && request.nextUrl.pathname !== '/login') {
+  const currentPath = request.nextUrl.pathname;
+
+  if (!token && publicRoutes.includes(currentPath)) {
     const login_url = request.nextUrl.clone();
     login_url.pathname = '/login'
     NextResponse.rewrite(login_url)
@@ -24,5 +23,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", '/login', "/my-donations"]
+  matcher: ["/", '/login', "/my-donations", "/create-donation"]
 }

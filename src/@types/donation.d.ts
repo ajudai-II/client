@@ -8,4 +8,6 @@ export interface IDonation {
   amount: number;
   isValidated: boolean;
   donator: IDonator;
+  imageUrl: string;
+  category: string;
 }
