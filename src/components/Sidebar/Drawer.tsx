@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useRouter } from "next/router";
 import nookies from "nookies";
 import {
   Drawer,
@@ -23,8 +24,9 @@ interface IDrawerComponent {
 
 const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
   const btnRef: any = useRef();
+  const router = useRouter();
 
-  const menuItems = ["Home", "Perfil", "Pedidos"];
+  const menuItems = ["Home", "Perfil", "Fazer Pedido"];
 
   const handleLogout = () => {
     try {
@@ -37,6 +39,12 @@ const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
       console.error("logout error", error);
     }
   };
+
+  const handleNavigate = (path: string) => {
+    router.push(path);
+    onClose();
+  };
+
   return (
     <Drawer
       isOpen={isOpen}
@@ -58,6 +66,11 @@ const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
               fontSize="24px"
               fontWeight="bold"
               className={styles.sidebarText}
+              onClick={() => {
+                if (item === "Fazer Pedido") {
+                  handleNavigate("/create-donation");
+                }
+              }}
             >
               {item}
             </Text>

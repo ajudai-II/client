@@ -9,3 +9,13 @@ export const useGetDonationsByDonator = (_id: string, page?: number) => {
     staleTime: 1000 * 60 * 10
   });
 }
+
+export const useGetDonationsByCategory = (category: string, page?: number) => {
+  return useQuery(["donations", "category", category, page], async () => {
+    const { data } = await api.get(`/donations-by-category/${category}?page=${page ? page : 1}`);
+    return data;
+  }, {
+    staleTime: 1000 * 60 * 10
+  });
+}
+

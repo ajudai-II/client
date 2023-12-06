@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Circle,
@@ -14,26 +14,31 @@ import {
   GiKnifeFork,
   GiTicket,
 } from "react-icons/gi";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import Carousel from "@/components/Carousel/Carousel";
 import MobileNav from "@/components/MobileNav/MobileNav";
 import Seo from "@/components/Seo/Seo";
 import homeMock from "@/mocks/homeMock";
 import SearchBar from "@/components/Searching/SearchBar/SearchBar";
 import CardHome from "@/components/Cards/Home/CardHome";
-
-const categories = [
-  { icon: <GiKnifeFork size={32} />, label: "Alimentos" },
-  { icon: <GiClothes size={32} />, label: "Vestuário" },
-  { icon: <GiBookmarklet size={32} />, label: "Educação" },
-  { icon: <GiHealthNormal size={32} />, label: "Saúde" },
-  { icon: <GiTicket size={32} />, label: "Outros" },
-];
+import useUser from "@/hooks/useUser";
 
 const Home = () => {
+  const { setUser } = useUser();
+  const router = useRouter();
   const [isLargerThan768, isLargerThan992] = useMediaQuery([
     "(min-width: 768px)",
     "(min-width: 992px)",
   ]);
+
+  const categories = [
+    { icon: <GiKnifeFork size={32} />, label: "Alimentos" },
+    { icon: <GiClothes size={32} />, label: "Vestuário" },
+    { icon: <GiBookmarklet size={32} />, label: "Educação" },
+    { icon: <GiHealthNormal size={32} />, label: "Saúde" },
+    { icon: <GiTicket size={32} />, label: "Outros" },
+  ];
 
   return (
     <>
@@ -61,24 +66,26 @@ const Home = () => {
               mb={4}
             >
               {categories.map(({ icon, label }, index) => (
-                <Box key={index}>
-                  <Circle
-                    size={isLargerThan992 ? "72px" : "64px"}
-                    bg="#E9E9E9"
-                    color="#fff"
-                    cursor="pointer"
-                  >
-                    {icon}
-                  </Circle>
-                  <Text
-                    mt={0.5}
-                    fontSize="sm"
-                    fontWeight="medium"
-                    textAlign={"center"}
-                  >
-                    {label}
-                  </Text>
-                </Box>
+                <Link key={index} href={`/category/${label.toLowerCase()}`}>
+                  <Box as="a">
+                    <Circle
+                      size={isLargerThan992 ? "72px" : "64px"}
+                      bg="#E9E9E9"
+                      color="#fff"
+                      cursor="pointer"
+                    >
+                      {icon}
+                    </Circle>
+                    <Text
+                      mt={0.5}
+                      fontSize="sm"
+                      fontWeight="medium"
+                      textAlign={"center"}
+                    >
+                      {label}
+                    </Text>
+                  </Box>
+                </Link>
               ))}
             </HStack>
           </Box>

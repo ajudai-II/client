@@ -28,11 +28,14 @@ const Login = () => {
         .then(async (res) => {
           const cookies = parseCookies();
           const token: string = res.data.token;
+          const user = JSON.stringify(res.data);
+          localStorage.setItem("user", user);
           const refreshToken = res.data.refresh_token;
           setCookie(null, "token", token, {
             maxAge: 30 * 24 * 60 * 60,
             path: "/",
           });
+
           setCookie(null, "refreshToken", refreshToken, {
             path: "/",
           });

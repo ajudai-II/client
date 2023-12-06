@@ -1,4 +1,5 @@
 export interface IUser {
+  address: string;
   _id: string;
   name: string;
   email: string;
@@ -6,4 +7,10 @@ export interface IUser {
   cpf: string;
   password: string;
   createdAt: Date;
+}
+
+export interface IBasicUser {
+  _id: string;
+  email: string;
+  token: string;
 }
