@@ -65,6 +65,7 @@ const ModalDeleteDonation: React.FC<IDeleteDonation> = ({
       _id: "",
       title: "",
       description: "",
+      picture: "",
       amount: 0,
       isValidated: false,
       donator: {

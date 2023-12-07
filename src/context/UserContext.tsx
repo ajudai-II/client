@@ -1,23 +1,29 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { IUser } from "@/@types/user";
+import { parseCookies } from "nookies";
+import { useGetUserById } from "@/queries/userQueries";
 
 interface IUserContext {
   user: IUser;
-  setUser: (user: IUser) => void;
 }
 
 const UserContext = createContext<IUserContext>({
   user: {} as IUser,
-  setUser: () => {},
 });
 
 export const UserContextProvider = ({ children }: any) => {
   const [user, setUser] = React.useState<IUser>({} as IUser);
+  const { user_id } = parseCookies();
+  const { data } = useGetUserById(user_id);
+
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    }
+  }, [data]);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
+    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
   );
 };
 

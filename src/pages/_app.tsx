@@ -4,6 +4,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Layout from "@/components/Layout/Layout";
 import DonationContextProvider from "@/context/DonationContext";
+import UserContext, { UserContextProvider } from "@/context/UserContext";
 
 const queryClient = new QueryClient();
 
@@ -11,11 +12,13 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider>
-        <DonationContextProvider>
-          <Layout showLayout={true}>
-            <Component {...pageProps} />
-          </Layout>
-        </DonationContextProvider>
+        <UserContextProvider>
+          <DonationContextProvider>
+            <Layout showLayout={true}>
+              <Component {...pageProps} />
+            </Layout>
+          </DonationContextProvider>
+        </UserContextProvider>
       </ChakraProvider>
     </QueryClientProvider>
   );
