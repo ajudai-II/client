@@ -15,6 +15,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import styles from "./Sidebar.module.scss";
+import { useRouter } from "next/router";
 
 interface IDrawerComponent {
   isOpen: boolean;
@@ -25,6 +26,25 @@ const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
   const btnRef: any = useRef();
 
   const menuItems = ["Home", "Perfil", "Pedidos"];
+
+  const getPathForItem = (item: string): string => {
+    switch (item) {
+      case 'Home':
+        return '/';
+      case 'Perfil':
+        return '/my-account';
+      case 'Pedidos':
+        return '/my-donations';
+      default:
+        return '/';
+    }
+  };
+
+  const router = useRouter();
+  const handleNavigation = (path: string) => {
+    router.push(path);
+    onClose();
+  };
 
   const handleLogout = () => {
     try {
@@ -58,6 +78,7 @@ const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
               fontSize="24px"
               fontWeight="bold"
               className={styles.sidebarText}
+              onClick={() => handleNavigation(getPathForItem(item))}
             >
               {item}
             </Text>
