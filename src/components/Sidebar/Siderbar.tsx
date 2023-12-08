@@ -17,7 +17,7 @@ const Siderbar = () => {
       >
         <HamburgerIcon w={8} h={8} />
       </Button>
-      <DrawerComponent isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+      <DrawerComponent isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };
