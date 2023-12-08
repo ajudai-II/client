@@ -20,6 +20,7 @@ import Seo from "@/components/Seo/Seo";
 import homeMock from "@/mocks/homeMock";
 import SearchBar from "@/components/Searching/SearchBar/SearchBar";
 import CardHome from "@/components/Cards/Home/CardHome";
+import { useRouter } from "next/router";
 
 const categories = [
   { icon: <GiKnifeFork size={32} />, label: "Alimentos" },
@@ -34,6 +35,12 @@ const Home = () => {
     "(min-width: 768px)",
     "(min-width: 992px)",
   ]);
+
+  const router = useRouter();
+
+  const handleCategoryClick = (categoryLabel: string) => {
+    router.push(`/categories/${categoryLabel.toLowerCase()}`);
+  };
 
   return (
     <>
@@ -61,7 +68,7 @@ const Home = () => {
               mb={4}
             >
               {categories.map(({ icon, label }, index) => (
-                <Box key={index}>
+                <Box key={index} onClick={() => handleCategoryClick(label)}>
                   <Circle
                     size={isLargerThan992 ? "72px" : "64px"}
                     bg="#E9E9E9"
