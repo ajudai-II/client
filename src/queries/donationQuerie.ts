@@ -1,4 +1,4 @@
-import { useQuery, useInfiniteQuery } from "react-query";
+import { useQuery } from "react-query";
 import { api } from "@/services/api";
 
 export const useGetDonationsByDonator = (_id: string, page?: number) => {

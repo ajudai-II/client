@@ -8,8 +8,6 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  useMediaQuery,
-  Box,
   Text,
   Button,
   Input,
@@ -24,34 +22,20 @@ interface IDrawerComponent {
 
 const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
   const btnRef: any = useRef();
+  const navigation = useRouter();
 
-  const menuItems = ["Home", "Perfil", "Pedidos"];
-
-  const getPathForItem = (item: string): string => {
-    switch (item) {
-      case 'Home':
-        return '/';
-      case 'Perfil':
-        return '/my-account';
-      case 'Pedidos':
-        return '/my-donations';
-      default:
-        return '/';
-    }
-  };
-
-  const router = useRouter();
-  const handleNavigation = (path: string) => {
-    router.push(path);
-    onClose();
-  };
-
+  const iconsNav = [
+    { label: "Home", path: "/" },
+    { label: "Perfil", path: "/my-account" },
+    { label: "Doações", path: "/my-donations" },
+    { label: "Opções", path: "/settings" },
+  ];
   const handleLogout = () => {
     try {
       localStorage.clear();
       nookies.destroy(null, "token", null);
       nookies.destroy(null, "refreshToken", null);
-
+      nookies.destroy(null, "user_id", null);
       window.location.href = "/login";
     } catch (error) {
       console.error("logout error", error);
@@ -71,16 +55,18 @@ const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
 
         <DrawerBody>
           <Input placeholder="Type here..." />
-          {menuItems.map((item, index) => (
+          {iconsNav.map((item, index) => (
             <Text
               key={index}
               color="#000"
               fontSize="24px"
               fontWeight="bold"
               className={styles.sidebarText}
-              onClick={() => handleNavigation(getPathForItem(item))}
+              onClick={() => {
+                navigation.push(item.path), onClose();
+              }}
             >
-              {item}
+              {item.label}
             </Text>
           ))}
         </DrawerBody>

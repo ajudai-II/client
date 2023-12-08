@@ -34,6 +34,7 @@ const MyDonationsPage = () => {
       title: "",
       description: "",
       amount: 0,
+      picture: "",
       isValidated: false,
       donator: {
         name: "",

@@ -26,9 +26,13 @@ const Login = () => {
           ...formData,
         })
         .then(async (res) => {
-          const cookies = parseCookies();
           const token: string = res.data.token;
           const refreshToken = res.data.refresh_token;
+          const user_id = res.data._id;
+          setCookie(null, "user_id", user_id, {
+            maxAge: 30 * 24 * 60 * 60,
+            path: "/",
+          });
           setCookie(null, "token", token, {
             maxAge: 30 * 24 * 60 * 60,
             path: "/",
@@ -36,6 +40,7 @@ const Login = () => {
           setCookie(null, "refreshToken", refreshToken, {
             path: "/",
           });
+
           window.location.href = "/";
         });
     } catch (error) {
