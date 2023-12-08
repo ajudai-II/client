@@ -7,6 +7,7 @@ import schema from "@/utils/schema/Address";
 import axios, { AxiosError } from "axios";
 import Seo from "@/components/Seo/Seo";
 import { useRouter } from "next/router";
+import useUser from "@/hooks/useUser";
 
 const MyAccount = () => {
   const {
@@ -15,10 +16,10 @@ const MyAccount = () => {
     setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-  const toast = useToast();
-  const [foto, setFoto] = useState(null);
-  const router = useRouter();
 
+  const toast = useToast();
+  const router = useRouter();
+  const { user } = useUser();
   const handleCEPBlur = async () => {
     const cep = watch("cep");
 
@@ -27,8 +28,6 @@ const MyAccount = () => {
         const response = await axios.get(
           `https://viacep.com.br/ws/${cep}/json/`
         );
-        console.log("Response from ViaCEP:", response.data);
-
         setValue("uf", response.data.uf);
         setValue("city", response.data.localidade);
         setValue("neighborhood", response.data.bairro);
@@ -66,11 +65,10 @@ const MyAccount = () => {
 
   const handleEditProfile = async () => {
     const formData = watch();
-    const userId = "655e32d3c173f5508a3cef2d";
 
     try {
       await axios
-        .put(`http://localhost:4000/address/${userId}`, formData)
+        .post(`http://localhost:4000/address/${user._id}`, formData)
         .then((res) => {
           toast({
             title: res.data.message,

@@ -26,7 +26,7 @@ const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
 
   const iconsNav = [
     { label: "Home", path: "/" },
-    { label: "Perfil", path: "/profile" },
+    { label: "Perfil", path: "/my-account" },
     { label: "Doações", path: "/my-donations" },
     { label: "Opções", path: "/settings" },
   ];

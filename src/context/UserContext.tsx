@@ -1,4 +1,4 @@
-import React, { createContext, useEffect } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import { IUser } from "@/@types/user";
 import { parseCookies } from "nookies";
 import { useGetUserById } from "@/queries/userQueries";
@@ -11,8 +11,12 @@ const UserContext = createContext<IUserContext>({
   user: {} as IUser,
 });
 
-export const UserContextProvider = ({ children }: any) => {
-  const [user, setUser] = React.useState<IUser>({} as IUser);
+interface IChildren {
+  children: React.ReactNode;
+}
+
+export const UserContextProvider = ({ children }: IChildren) => {
+  const [user, setUser] = useState<IUser>({} as IUser);
   const { user_id } = parseCookies();
   const { data } = useGetUserById(user_id);
 
@@ -22,9 +26,9 @@ export const UserContextProvider = ({ children }: any) => {
     }
   }, [data]);
 
-  return (
-    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
-  );
+  const value = useMemo(() => ({ user }), [user]);
+
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export default UserContext;
