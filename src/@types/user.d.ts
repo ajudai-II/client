@@ -1,5 +1,15 @@
+export interface IAddress {
+  cep: string;
+  uf: string;
+  city: string;
+  neighborhood: string;
+  street: string;
+  number: string;
+  complement: string;
+}
+
 export interface IUser {
-  address: any;
+  addresses: IAddress[];
   _id: string;
   name: string;
   email: string;
