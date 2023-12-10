@@ -53,7 +53,7 @@ const Register = () => {
 
   return (
     <main className={styles.registerPageMain}>
-      <Seo title="Registro no Ajudaí" />
+      <Seo title="Ajudaí | Registro" />
       <div className={styles.registerPageinputsBox}>
         <div className={styles.inputsBoxContainer}>
           <Image

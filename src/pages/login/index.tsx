@@ -8,6 +8,7 @@ import schema from "@/utils/schema/Login";
 import { api } from "@/services/api";
 import { AxiosError } from "axios";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
+import Seo from "@/components/Seo/Seo";
 
 const Login = () => {
   const {
@@ -63,6 +64,7 @@ const Login = () => {
       w={"100%"}
       h={"100dvh"}
     >
+      <Seo title={"Ajudaí | Login"} />
       <Container>
         <form onSubmit={onSubmit(handleLogin)}>
           <Box
