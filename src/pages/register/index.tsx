@@ -10,6 +10,7 @@ import CustomInput from "@/components/Input/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "@/schemas/register";
 import Link from "next/link";
+import { Router, useRouter } from "next/router";
 
 const Register = () => {
   const {
@@ -18,8 +19,8 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm({ resolver: yupResolver(registerSchema) });
-
   const toast = useToast();
+  const router = useRouter();
 
   const handleRegister = async () => {
     const formData = watch();
@@ -36,6 +37,7 @@ const Register = () => {
             duration: 9000,
             isClosable: true,
           });
+          router.push("/login");
         });
     } catch (error) {
       console.error("Erro na solicitação:", error);

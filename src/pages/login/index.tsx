@@ -8,6 +8,7 @@ import schema from "@/utils/schema/Login";
 import { api } from "@/services/api";
 import { AxiosError } from "axios";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const {
@@ -17,6 +18,7 @@ const Login = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const toast = useToast();
+  const router = useRouter();
 
   const handleLogin = async () => {
     const formData = watch();
@@ -106,6 +108,16 @@ const Login = () => {
             Login
           </Button>
         </form>
+        <Text pt={8} fontSize="m" fontWeight="medium" textAlign={"center"}>
+          Não tem uma conta?{" "}
+          <span
+            style={{ textDecoration: "underline", cursor: "pointer" }}
+            onClick={() => router.push("/register")}
+          >
+            Registre-se
+          </span>
+          !
+        </Text>
       </Container>
     </Box>
   );

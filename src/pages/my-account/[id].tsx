@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -15,28 +15,41 @@ import axios, { AxiosError } from "axios";
 import Seo from "@/components/Seo/Seo";
 import { MdAddAPhoto } from "react-icons/md";
 import { useRouter } from "next/router";
+import useUser from "@/hooks/useUser";
 
 const MyAccount = () => {
   const {
     register,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const toast = useToast();
   const inputFile = useRef<HTMLInputElement>(null);
-  const [foto, setFoto] = useState(null);
+  const [photo, setPhoto] = useState(null);
   const [selectedImage, setSelectedImage] = useState<
     string | ArrayBuffer | null
   >("");
   const router = useRouter();
+  const { user } = useUser();
+
+  useEffect(() => {
+    const { name, email, phone, cpf, photo } = user;
+    setValue("name", name);
+    setValue("email", email);
+    setValue("phone", phone);
+    setValue("cpf", cpf);
+    if (photo) {
+      setValue("photo", photo);
+    }
+  }, [user, setValue]);
 
   const handleEditProfile = async () => {
     const formData = watch();
-    const userId = "655e32d3c173f5508a3cef2d";
 
     try {
       await axios
-        .put(`http://localhost:4000/edit/${userId}`, formData)
+        .put(`http://localhost:4000/my-account/${user._id}`, formData)
         .then((res) => {
           toast({
             title: res.data.message,
@@ -86,7 +99,7 @@ const MyAccount = () => {
               ref={inputFile}
               style={{ display: "none" }}
               onChange={(e: any) => {
-                setFoto(e.target.files[0]);
+                setPhoto(e.target.files[0]);
 
                 const reader = new FileReader();
                 reader.onloadend = () => {
@@ -102,7 +115,7 @@ const MyAccount = () => {
               bgColor="gray.500"
               opacity="0.8"
               alt=""
-              src={foto ? URL.createObjectURL(foto) : (selectedImage as string)}
+              src={photo ? URL.createObjectURL(photo) : (selectedImage as string)}
               onClick={() => inputFile.current?.click()}
               _hover={{
                 cursor: "pointer",
@@ -110,7 +123,7 @@ const MyAccount = () => {
                 transition: "opacity 0.3s ease-in-out",
               }}
             />
-            {!foto && (
+            {!photo && (
               <Box
                 position="absolute"
                 top="50%"
@@ -181,3 +194,4 @@ const MyAccount = () => {
 };
 
 export default MyAccount;
+
