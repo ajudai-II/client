@@ -5,7 +5,6 @@ const publicRoutes = ["/login", "/register"]
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
-
   if (token && publicRoutes.includes(request.nextUrl.pathname)) {
     const home_url = request.nextUrl.clone();
     home_url.pathname = '/'
