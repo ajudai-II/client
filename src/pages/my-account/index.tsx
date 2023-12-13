@@ -79,7 +79,7 @@ const MyAccount = () => {
 
   return (
     <>
-      <Seo title="Minha Conta" />
+      <Seo title="Ajudai | Minha Conta" />
       <Box
         marginTop={isLargerThan768 ? (isLargerThan992 ? "2%" : "3%") : "12%"}
         fontFamily="Poppins, sans-serif"
@@ -115,7 +115,9 @@ const MyAccount = () => {
               bgColor="gray.500"
               opacity="0.8"
               alt=""
-              src={photo ? URL.createObjectURL(photo) : (selectedImage as string)}
+              src={
+                photo ? URL.createObjectURL(photo) : (selectedImage as string)
+              }
               onClick={() => inputFile.current?.click()}
               _hover={{
                 cursor: "pointer",
@@ -174,7 +176,8 @@ const MyAccount = () => {
             <Button
               colorScheme="blackAlpha"
               size="md"
-              onClick={() => router.push("/my-address")}              mt={4}
+              onClick={() => router.push("/my-address")}
+              mt={4}
             >
               Editar endereço
             </Button>
@@ -194,4 +197,3 @@ const MyAccount = () => {
 };
 
 export default MyAccount;
-

@@ -9,6 +9,7 @@ import { api } from "@/services/api";
 import { AxiosError } from "axios";
 import { parseCookies, setCookie, destroyCookie } from "nookies";
 import { useRouter } from "next/router";
+import Seo from "@/components/Seo/Seo";
 
 const Login = () => {
   const {
@@ -58,69 +59,72 @@ const Login = () => {
     }
   };
   return (
-    <Box
-      display={"flex"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      w={"100%"}
-      h={"100dvh"}
-    >
-      <Container>
-        <form onSubmit={onSubmit(handleLogin)}>
-          <Box
-            w={"100%"}
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <Image
-              src={"/icons/logo.svg"}
-              alt={"logo do ajudai"}
-              width={192}
-              height={192}
+    <>
+      <Seo title="Ajudai | Login" />
+      <Box
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        w={"100%"}
+        h={"100dvh"}
+      >
+        <Container>
+          <form onSubmit={onSubmit(handleLogin)}>
+            <Box
+              w={"100%"}
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <Image
+                src={"/icons/logo.svg"}
+                alt={"logo do ajudai"}
+                width={192}
+                height={192}
+              />
+            </Box>
+
+            <CustomInput
+              label="Email"
+              type="text"
+              placeholder="Digite sua email"
+              register={register}
+              name="email"
+              errors={errors}
             />
-          </Box>
 
-          <CustomInput
-            label="Email"
-            type="text"
-            placeholder="Digite sua email"
-            register={register}
-            name="email"
-            errors={errors}
-          />
+            <CustomInput
+              label="Senha"
+              type="password"
+              register={register}
+              name="password"
+              placeholder="Digite sua senha"
+              errors={errors}
+            />
 
-          <CustomInput
-            label="Senha"
-            type="password"
-            register={register}
-            name="password"
-            placeholder="Digite sua senha"
-            errors={errors}
-          />
-
-          <Button
-            w={"100%"}
-            marginTop={4}
-            colorScheme="blackAlpha"
-            size="md"
-            type="submit"
-          >
-            Login
-          </Button>
-        </form>
-        <Text pt={8} fontSize="m" fontWeight="medium" textAlign={"center"}>
-          Não tem uma conta?{" "}
-          <span
-            style={{ textDecoration: "underline", cursor: "pointer" }}
-            onClick={() => router.push("/register")}
-          >
-            Registre-se
-          </span>
-          !
-        </Text>
-      </Container>
-    </Box>
+            <Button
+              w={"100%"}
+              marginTop={4}
+              colorScheme="blackAlpha"
+              size="md"
+              type="submit"
+            >
+              Login
+            </Button>
+          </form>
+          <Text pt={8} fontSize="m" fontWeight="medium" textAlign={"center"}>
+            Não tem uma conta?{" "}
+            <span
+              style={{ textDecoration: "underline", cursor: "pointer" }}
+              onClick={() => router.push("/register")}
+            >
+              Registre-se
+            </span>
+            !
+          </Text>
+        </Container>
+      </Box>
+    </>
   );
 };
 
