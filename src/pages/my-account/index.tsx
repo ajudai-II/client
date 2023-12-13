@@ -81,7 +81,8 @@ const MyAccount = () => {
     <>
       <Seo title="Ajudai | Minha Conta" />
       <Box
-        marginTop={isLargerThan768 ? (isLargerThan992 ? "2%" : "3%") : "12%"}
+        marginTop={isLargerThan768 ? (isLargerThan992 ? "2%" : "3%") : "20%"}
+        marginBottom={isLargerThan768 ? (isLargerThan992 ? "2%" : "3%") : "20%"}
         fontFamily="Poppins, sans-serif"
         fontWeight={700}
         display="flex"
@@ -110,7 +111,7 @@ const MyAccount = () => {
             />
             <Image
               borderRadius="full"
-              boxSize="200px"
+              boxSize="120px"
               objectFit="cover"
               bgColor="gray.500"
               opacity="0.8"

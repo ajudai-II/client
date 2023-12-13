@@ -47,6 +47,7 @@ const Home = () => {
       <Seo title={"Ajudaí | Homepage"} />
       <Box
         w={"100%"}
+        h={"100%"}
         display="flex"
         alignItems={"center"}
         flexDirection={isLargerThan768 ? "row" : "column-reverse"}
@@ -115,7 +116,6 @@ const Home = () => {
           </Box>
         </Box>
       </Box>
-      {!isLargerThan992 && <MobileNav />}
     </>
   );
 };

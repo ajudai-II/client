@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, Container, Text, useToast } from "@chakra-ui/react";
@@ -7,11 +7,12 @@ import Image from "next/image";
 import schema from "@/utils/schema/Login";
 import { api } from "@/services/api";
 import { AxiosError } from "axios";
-import { parseCookies, setCookie, destroyCookie } from "nookies";
+import { setCookie } from "nookies";
 import { useRouter } from "next/router";
 import Seo from "@/components/Seo/Seo";
 
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit: onSubmit,
@@ -22,6 +23,7 @@ const Login = () => {
   const router = useRouter();
 
   const handleLogin = async () => {
+    setIsLoading(true);
     const formData = watch();
     try {
       await api
@@ -43,8 +45,8 @@ const Login = () => {
           setCookie(null, "refreshToken", refreshToken, {
             path: "/",
           });
-
           window.location.href = "/";
+          setIsLoading(false);
         });
     } catch (error) {
       const errorMessage =
@@ -56,6 +58,7 @@ const Login = () => {
         duration: 9000,
         isClosable: true,
       });
+      setIsLoading(false);
     }
   };
   return (
@@ -108,6 +111,9 @@ const Login = () => {
               colorScheme="blackAlpha"
               size="md"
               type="submit"
+              isLoading={isLoading}
+              loadingText={isLoading ? "Carregando..." : null}
+              variant={isLoading ? "outline" : "solid"}
             >
               Login
             </Button>
