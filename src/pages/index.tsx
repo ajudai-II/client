@@ -40,6 +40,7 @@ const Home = () => {
 
   const handleCategoryClick = (categoryLabel: string) => {
     router.push(`/categories/${categoryLabel.toLowerCase()}`);
+  };
 
   return (
     <Box as="main">
