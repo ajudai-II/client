@@ -6,6 +6,7 @@ const homeMock: IDonation[] = [
     title: "Mangá Naruto",
     description: "This is donation 1",
     amount: 100,
+    category: "outros",
     picture: "https://img.olx.com.br/images/72/721389392490233.jpg",
     isValidated: true,
     donator: {
@@ -21,6 +22,7 @@ const homeMock: IDonation[] = [
     title: "Xícara de café",
     description: "This is donation 1",
     amount: 100,
+    category: "alimentos",
     picture: "https://img.olx.com.br/images/72/721389392490233.jpg",
     isValidated: true,
     donator: {

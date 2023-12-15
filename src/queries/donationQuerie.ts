@@ -10,9 +10,9 @@ export const useGetDonationsByDonator = (_id: string, page?: number) => {
   });
 }
 
-export const useGetDonationsByCategory = (category: string) => {
-  return useQuery(['donationsByCategory', category], async () => {
-    const { data } = await api.get(`/donations-by-category/${category}`);
+export const useGetDonationsByCategory = (category: string, page?: number) => {
+  return useQuery(["categories", category], async () => {
+    const { data } = await api.get(`/categories/${category}`);
     return data;
   }, {
     staleTime: 1000 * 60 * 10,

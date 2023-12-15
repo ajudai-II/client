@@ -19,6 +19,7 @@ export const DonationContext = createContext<DonationContextType>({
     description: "",
     picture: "",
     amount: 0,
+    category: "",
     isValidated: false,
     donator: {
       name: "",
@@ -40,6 +41,7 @@ const DonationContextProvider = ({ children }: IChildren) => {
     description: "",
     picture: "",
     amount: 0,
+    category: "",
     isValidated: false,
     donator: {
       name: "",

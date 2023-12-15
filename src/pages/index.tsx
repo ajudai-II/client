@@ -38,9 +38,8 @@ const Home = () => {
 
   const router = useRouter();
 
-  const handleCategoryClick = (category: string) => {
-    router.push(`/categories/${category.toLowerCase()}`);
-  };
+  const handleCategoryClick = (categoryLabel: string) => {
+    router.push(`/categories/${categoryLabel.toLowerCase()}`);
 
   return (
     <Box as="main">

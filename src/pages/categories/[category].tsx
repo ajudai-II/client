@@ -4,11 +4,16 @@ import Seo from "@/components/Seo/Seo";
 import { useGetDonationsByCategory } from "@/queries/donationQuerie";
 import { Box, Button, ButtonGroup, Skeleton, Spinner, Text } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-import CardMyDonations from "@/components/Cards/Donations/CardMyDonations";
-const skeletonItems = [0, 1, 2, 3, 4];
+import CardDonationsByCategory from "@/components/Cards/Donations/CardDonationsByCategory";
+import { useRouter } from "next/router";
+import homeMock from "@/mocks/homeMock";
 
-const CategoryDonationsPage = ({category}) => {
-  const [page, setPage] = useState(1);
+const CategoryDonationsPage = () => {
+  const router = useRouter();
+  const { category } = router.query;
+  const [page, setPage] = useState<number>(1);
+  const data = homeMock;
+  const itemsPerPage = 5;
 
   const {
     data,
@@ -17,7 +22,7 @@ const CategoryDonationsPage = ({category}) => {
     isFetching,
     isRefetching,
     refetch
-  } = useGetDonationsByCategory(category);
+  } = useGetDonationsByCategory(category as string, page);
 
   useEffect(() => {
     refetch();
@@ -29,10 +34,19 @@ const CategoryDonationsPage = ({category}) => {
     }
   };
 
+  const nextPage = () => {
+    const totalItems = data.filter((item) => item.category === category).length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  };
+
   if (isLoading)
     return (
       <>
-        <Seo title={`Ajudaí | Doações na Categoria ${category}`} />
+        <Seo title={`Ajudaí | Doações em ${category}`} />
 
         <Box>
           <Box
@@ -43,9 +57,9 @@ const CategoryDonationsPage = ({category}) => {
             gap={"10px"}
             mt={{ base: "3.1rem", md: 0 }}
           >
-            {skeletonItems.map((key) => (
+            {[...Array(itemsPerPage)].map((_, index) => (
               <Skeleton
-                key={key}
+                key={index}
                 w={{ base: "100%", md: "50%" }}
                 h={"150px"}
                 borderRadius={"10px"}
@@ -83,7 +97,7 @@ const CategoryDonationsPage = ({category}) => {
             />
           </Box>
         ))}
-      <Seo title={`Ajudaí | Doações na Categoria ${category}`} />
+      <Seo title={`Ajudaí | Doações em ${category}`} />
 
       <Box w={"100%"}>
         <Box
@@ -95,13 +109,7 @@ const CategoryDonationsPage = ({category}) => {
           marginTop={{ base: "3.5rem", md: 0 }}
           paddingBottom={{ base: "4.5rem", md: "0.625rem" }}
         >
-          {data?.pages.map((page: { data: any[]; }, pageIndex: React.Key | null | undefined) => (
-            <React.Fragment key={pageIndex}>
-              {page.data.map((donation) => (
-                <CardMyDonations key={donation._id} data={donation} />
-              ))}
-            </React.Fragment>
-          ))}
+          <CardDonationsByCategory data={homeMock} category={category} />
           <ButtonGroup
             w={{ base: "100%", md: "50%" }}
             display={"flex"}
@@ -120,9 +128,11 @@ const CategoryDonationsPage = ({category}) => {
             </Button>
             <Text>Página {page}</Text>
             <Button
-              disabled={!data?.pages[page - 1]?.hasNextPage}
-              cursor={!data?.pages[page - 1]?.hasNextPage ? "not-allowed" : "pointer"}
-              onClick={() => setPage(page + 1)}
+              disabled={page * itemsPerPage >= data.length}
+              cursor={page * itemsPerPage >= data.length ? "not-allowed" : "pointer"}
+              background={"blackAlpha.900"}
+              color={"white"}
+              onClick={() => nextPage()}
               borderRadius={"50%"}
               p={"0.5rem"}
             >
