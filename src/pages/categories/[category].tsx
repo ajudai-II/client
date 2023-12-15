@@ -16,6 +16,7 @@ const CategoryDonationsPage = () => {
   const itemsPerPage = 5;
 
   const {
+    data,
     isLoading,
     isError,
     isFetching,

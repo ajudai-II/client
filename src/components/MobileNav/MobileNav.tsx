@@ -8,7 +8,7 @@ import { headerRoutes } from "@/const/pages";
 
 const iconsNav = [
   { icon: BsFillHouseDoorFill, label: "Home", path: "/" },
-  { icon: BsFillPersonFill, label: "Perfil", path: "/profile" },
+  { icon: BsFillPersonFill, label: "Perfil", path: "/my-account" },
   { icon: BsList, label: "Doações", path: "/my-donations" },
   { icon: LuSettings, label: "Opções", path: "/settings" },
 ];
@@ -28,6 +28,7 @@ const MobileNav = () => {
             display="flex"
             alignItems="center"
             justifyContent="space-around"
+            overflow={"hidden"}
           >
             {iconsNav.map(({ icon: Icon, label, path }, index) => (
               <Box

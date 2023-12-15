@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, Container, Text, useToast } from "@chakra-ui/react";
@@ -7,9 +7,12 @@ import Image from "next/image";
 import schema from "@/utils/schema/Login";
 import { api } from "@/services/api";
 import { AxiosError } from "axios";
-import { parseCookies, setCookie, destroyCookie } from "nookies";
+import { setCookie } from "nookies";
+import { useRouter } from "next/router";
+import Seo from "@/components/Seo/Seo";
 
 const Login = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit: onSubmit,
@@ -17,8 +20,10 @@ const Login = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
   const toast = useToast();
+  const router = useRouter();
 
   const handleLogin = async () => {
+    setIsLoading(true);
     const formData = watch();
     try {
       await api
@@ -26,9 +31,13 @@ const Login = () => {
           ...formData,
         })
         .then(async (res) => {
-          const cookies = parseCookies();
           const token: string = res.data.token;
           const refreshToken = res.data.refresh_token;
+          const user_id = res.data._id;
+          setCookie(null, "user_id", user_id, {
+            maxAge: 30 * 24 * 60 * 60,
+            path: "/",
+          });
           setCookie(null, "token", token, {
             maxAge: 30 * 24 * 60 * 60,
             path: "/",
@@ -37,6 +46,7 @@ const Login = () => {
             path: "/",
           });
           window.location.href = "/";
+          setIsLoading(false);
         });
     } catch (error) {
       const errorMessage =
@@ -48,61 +58,79 @@ const Login = () => {
         duration: 9000,
         isClosable: true,
       });
+      setIsLoading(false);
     }
   };
   return (
-    <Box
-      display={"flex"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      w={"100%"}
-      h={"100dvh"}
-    >
-      <Container>
-        <form onSubmit={onSubmit(handleLogin)}>
-          <Box
-            w={"100%"}
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <Image
-              src={"/icons/logo.svg"}
-              alt={"logo do ajudai"}
-              width={192}
-              height={192}
+    <>
+      <Seo title="Ajudai | Login" />
+      <Box
+        display={"flex"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        w={"100%"}
+        h={"100dvh"}
+      >
+        <Container>
+          <form onSubmit={onSubmit(handleLogin)}>
+            <Box
+              w={"100%"}
+              display={"flex"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <Image
+                src={"/icons/logo.svg"}
+                alt={"logo do ajudai"}
+                width={192}
+                height={192}
+              />
+            </Box>
+
+            <CustomInput
+              label="Email"
+              type="text"
+              placeholder="Digite sua email"
+              register={register}
+              name="email"
+              errors={errors}
             />
-          </Box>
 
-          <CustomInput
-            label="Email"
-            type="text"
-            register={register}
-            name="email"
-            errors={errors}
-          />
+            <CustomInput
+              label="Senha"
+              type="password"
+              register={register}
+              name="password"
+              placeholder="Digite sua senha"
+              errors={errors}
+            />
 
-          <CustomInput
-            label="Senha"
-            type="password"
-            register={register}
-            name="password"
-            placeholder="Digite sua senha"
-            errors={errors}
-          />
-
-          <Button
-            w={"100%"}
-            marginTop={4}
-            colorScheme="blackAlpha"
-            size="md"
-            type="submit"
-          >
-            Login
-          </Button>
-        </form>
-      </Container>
-    </Box>
+            <Button
+              w={"100%"}
+              marginTop={4}
+              size="md"
+              type="submit"
+              isLoading={isLoading}
+              loadingText={isLoading ? "Carregando..." : null}
+              background={"blackAlpha.900"}
+              color={"white"}
+            >
+              Login
+            </Button>
+          </form>
+          <Text pt={8} fontSize="m" fontWeight="medium" textAlign={"center"}>
+            Não tem uma conta?{" "}
+            <span
+              style={{ textDecoration: "underline", cursor: "pointer" }}
+              onClick={() => router.push("/register")}
+            >
+              Registre-se
+            </span>
+            !
+          </Text>
+        </Container>
+      </Box>
+    </>
   );
 };
 

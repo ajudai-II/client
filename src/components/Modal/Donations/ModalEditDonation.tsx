@@ -62,6 +62,7 @@ const ModalEditDonation: React.FC<IEditDonation> = ({ isOpen, onClose }) => {
             title: "",
             description: "",
             amount: 0,
+            picture: "",
             isValidated: false,
             donator: {
               name: "",
@@ -91,6 +92,7 @@ const ModalEditDonation: React.FC<IEditDonation> = ({ isOpen, onClose }) => {
       title: "",
       description: "",
       amount: 0,
+      picture: "",
       isValidated: false,
       donator: {
         name: "",

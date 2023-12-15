@@ -37,7 +37,7 @@ const HeaderMobile = () => {
               <ArrowBackIcon />
             </Button>
           )}
-          {asPath === "/" && <Siderbar />}
+          {/* {asPath === "/" && <Siderbar />} */}
 
           <Heading size={"md"} textAlign={"center"}>
             {routesEnum[asPath as keyof typeof routesEnum] || ""}
