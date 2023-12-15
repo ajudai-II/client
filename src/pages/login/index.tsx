@@ -108,12 +108,12 @@ const Login = () => {
             <Button
               w={"100%"}
               marginTop={4}
-              colorScheme="blackAlpha"
               size="md"
               type="submit"
               isLoading={isLoading}
               loadingText={isLoading ? "Carregando..." : null}
-              variant={isLoading ? "outline" : "solid"}
+              background={"blackAlpha.900"}
+              color={"white"}
             >
               Login
             </Button>

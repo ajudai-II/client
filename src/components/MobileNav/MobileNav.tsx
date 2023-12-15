@@ -28,6 +28,7 @@ const MobileNav = () => {
             display="flex"
             alignItems="center"
             justifyContent="space-around"
+            overflow={"hidden"}
           >
             {iconsNav.map(({ icon: Icon, label, path }, index) => (
               <Box

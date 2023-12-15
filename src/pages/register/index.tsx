@@ -79,6 +79,7 @@ const Register = () => {
           <CustomInput
             label="Nome"
             type="text"
+            placeholder="Nome completo"
             register={register}
             name="name"
             errors={errors}
@@ -87,6 +88,7 @@ const Register = () => {
           <CustomInput
             label="Email"
             type="text"
+            placeholder="Digite sua email"
             register={register}
             name="email"
             errors={errors}
@@ -95,6 +97,7 @@ const Register = () => {
           <CustomInput
             label="Telefone"
             type="text"
+            placeholder="Telefone com DDD"
             register={register}
             name="phone"
             errors={errors}
@@ -120,9 +123,11 @@ const Register = () => {
 
           <div className={styles.registerPageRegisterButton}>
             <Button
-              colorScheme="blackAlpha"
+              w={"100%"}
               size="md"
               onClick={onSubmit(handleRegister)}
+              background={"blackAlpha.900"}
+              color={"white"}
             >
               Registrar
             </Button>

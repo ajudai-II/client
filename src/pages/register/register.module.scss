@@ -1,108 +1,107 @@
-@import '../../styles/colors';
-@import '../../styles/fonts';
+@import "../../styles/colors";
+@import "../../styles/fonts";
 
 .registerPageMain {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: $background-pages-default;
 }
 
-.registerPageinputsBox{
-    width: 100%;
-    padding-top: 8%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+.registerPageinputsBox {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
-.inputsBoxContainer{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    padding: 16px;
+.inputsBoxContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px;
 }
 
-.registerPageLogoImg{
-    width: 200px;
-    display: flex;
-    align-self: center;
+.registerPageLogoImg {
+  width: 200px;
+  display: flex;
+  align-self: center;
 }
 
 .registerPageContentContainer {
-    padding: 16px 0;
-  }
+  padding: 16px 0;
+}
 
 .registerPageContentContainerP {
-    font-family: $font-family-principal;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    line-height: 2;
+  font-family: $font-family-principal;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 2;
 }
 
 .registerPageContentContainerSpan {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
 }
-  
+
 .registerPageContentContainerSpanP {
-    font-family: $font-family-principal;
-    font-weight: 300;
-    letter-spacing: 1px;
+  font-family: $font-family-principal;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 
 .registerPageContentContainerSpanA {
-    font-family: $font-family-principal;
-    font-weight: 700;
-    border-bottom: 1px solid #000000;
-    letter-spacing: 1px;
-    cursor: pointer;
+  font-family: $font-family-principal;
+  font-weight: 700;
+  border-bottom: 1px solid #000000;
+  letter-spacing: 1px;
+  cursor: pointer;
 }
 
 .registerPageRegisterButton {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 24px 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
 }
 
 .registerPagePP {
-    font-family: $font-family-principal;
-    color: $fonte-cor-primaria;
-    font-weight: 300;
-    font-size: 0.8rem;
-    cursor: pointer;
-    align-self: center;
+  font-family: $font-family-principal;
+  color: $fonte-cor-primaria;
+  font-weight: 300;
+  font-size: 0.8rem;
+  cursor: pointer;
+  align-self: center;
 }
 
 @media (min-width: 576px) {
-    .registerPageinputsBox {
-      width: 100%;
-      padding-top: 4%;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-    }
+  .registerPageinputsBox {
+    width: 100%;
+    padding-top: 4%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
 }
 
 @media (min-width: 768px) {
-    .registerPageMain {
-      min-height: 100vh;
-    }
+  .registerPageMain {
+    min-height: 100vh;
+  }
 
-    .registerPageinputsBox{
-        align-items: center;
-    }
+  .registerPageinputsBox {
+    align-items: center;
+  }
 
-    .inputsBoxContainer{
-        width: 50%;
-        display: flex;
-    }
+  .inputsBoxContainer {
+    width: 50%;
+    display: flex;
+  }
 }
 
 @media (min-width: 992px) {
-    .inputsBoxContainer{
-        width: 45%;
-    }
+  .inputsBoxContainer {
+    width: 45%;
+  }
 }

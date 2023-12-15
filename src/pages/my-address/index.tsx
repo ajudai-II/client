@@ -100,7 +100,7 @@ const MyAccount = () => {
     <>
       <Seo title="Meu Endereço" />
       <Box
-        marginTop={isLargerThan768 ? (isLargerThan992 ? "2%" : "3%") : "12%"}
+        marginTop={isLargerThan768 ? "2%" : "20%"}
         fontFamily="Poppins, sans-serif"
         fontWeight={700}
         display="flex"

@@ -17,15 +17,8 @@ const HomeBanner: React.FC<IHomeBannerProps> = ({ picture, alt, title }) => {
   ]);
 
   return (
-    <Box
-      w={"100%"}
-      display={"flex"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      p={{ md: 8 }}
-    >
+    <Box w={"100%"}>
       <Box
-        w="95%"
         height={
           isLargerThan576
             ? isLargerThan768

@@ -43,30 +43,34 @@ const Home = () => {
   };
 
   return (
-    <>
+    <Box as="main">
       <Seo title={"Ajudaí | Homepage"} />
       <Box
         w={"100%"}
         h={"100%"}
         display="flex"
         alignItems={"center"}
-        flexDirection={isLargerThan768 ? "row" : "column-reverse"}
+        flexDirection={"column-reverse"}
       >
-        <Box w={isLargerThan768 ? (isLargerThan992 ? "100%" : "75%") : "100%"}>
+        <Box w={"95%"}>
           {isLargerThan768 ? null : (
             <Box marginTop={"4rem"}>
               <SearchBar />
             </Box>
           )}
 
-          <Box p={"0 1rem"}>
+          <Box position={"relative"}>
+            <Carousel />
+          </Box>
+
+          <Box>
             <HStack
               justify="center"
               gap={"0.625rem"}
               align="center"
               fontSize="lg"
-              mt={4}
-              mb={4}
+              mt={"4rem"}
+              mb={"2rem"}
             >
               {categories.map(({ icon, label }, index) => (
                 <Box key={index} onClick={() => handleCategoryClick(label)}>
@@ -90,15 +94,6 @@ const Home = () => {
               ))}
             </HStack>
           </Box>
-          <Box
-            w={isLargerThan992 ? "100%" : "unset"}
-            display={"flex"}
-            justifyContent={"center"}
-          >
-            <Box w={isLargerThan992 ? "50%" : "100%"}>
-              <Carousel />
-            </Box>
-          </Box>
 
           <Box
             w={isLargerThan992 ? "100%" : "unset"}
@@ -116,7 +111,7 @@ const Home = () => {
           </Box>
         </Box>
       </Box>
-    </>
+    </Box>
   );
 };
 
