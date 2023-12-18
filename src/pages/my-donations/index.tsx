@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CardMyDonations from "@/components/Cards/Donations/CardMyDonations";
 import Seo from "@/components/Seo/Seo";
 import { useGetDonationsByDonator } from "@/queries/donationQuerie";

@@ -5,7 +5,9 @@ export function apiClient() {
 
   const instance = axios.create({
     baseURL: BASE_URL,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
   });
 
   return instance;

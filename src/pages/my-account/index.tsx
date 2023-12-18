@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Box,
   Button,
+  FormControl,
   Image,
   Text,
   useMediaQuery,
@@ -11,64 +12,87 @@ import {
 } from "@chakra-ui/react";
 import CustomInput from "@/components/Input/Input";
 import schema from "@/utils/schema/MyAccount";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import Seo from "@/components/Seo/Seo";
 import { MdAddAPhoto } from "react-icons/md";
 import { useRouter } from "next/router";
 import useUser from "@/hooks/useUser";
+import { api } from "@/services/api";
 
 const MyAccount = () => {
+  const { user } = useUser();
+  const toast = useToast();
+  const inputFile = useRef<HTMLInputElement>(null);
+  const [selectedImage, setSelectedImage] = useState<File | null | string>("");
+  const router = useRouter();
   const {
     register,
     watch,
+    handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(schema) });
-  const toast = useToast();
-  const inputFile = useRef<HTMLInputElement>(null);
-  const [photo, setPhoto] = useState(null);
-  const [selectedImage, setSelectedImage] = useState<
-    string | ArrayBuffer | null
-  >("");
-  const router = useRouter();
-  const { user } = useUser();
+  } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      name: user?.name,
+      email: user?.email,
+      phone: user?.phone,
+      cpf: user?.cpf,
+      password: user?.password,
+    },
+  });
 
-  useEffect(() => {
-    const { name, email, phone, cpf, photo } = user;
-    setValue("name", name);
-    setValue("email", email);
-    setValue("phone", phone);
-    setValue("cpf", cpf);
-    if (photo) {
-      setValue("photo", photo);
+  const handleFileSelect = (event?: ChangeEvent<HTMLInputElement>) => {
+    event?.preventDefault();
+    if (event?.target?.files?.length) {
+      const file = event.target.files[0];
+      setSelectedImage(file);
+      setValue("picture", Object.assign(file));
     }
-  }, [user, setValue]);
+  };
 
   const handleEditProfile = async () => {
     const formData = watch();
+    console.log("formData", formData);
+    // const userUpdate = {
+    //   name: user?.name,
+    //   email: user?.email,
+    //   phone: user?.phone,
+    //   cpf: user?.cpf,
+    //   password: user?.password,
+    // };
 
+    // Object.entries(userUpdate).forEach(([key, value]) => {
+    //   return formData.append(key, value!);
+    // });
     try {
-      await axios
-        .put(`http://localhost:4000/my-account/${user._id}`, formData)
-        .then((res) => {
-          toast({
-            title: res.data.message,
-            status: "success",
-            duration: 9000,
-            isClosable: true,
-          });
-        });
-    } catch (error) {
-      console.error("Erro na solicitação:", error);
-      const errorMessage =
-        (error as AxiosError<{ message: string }>).response?.data?.message ||
-        "Erro desconhecido";
+      await api.put(`/edit/${user._id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
       toast({
-        title: errorMessage,
+        title: "Atulizado",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro ao editar perfil",
         status: "error",
         duration: 9000,
         isClosable: true,
       });
+      console.error(error);
+    }
+  };
+
+  const renderPictureUpdate = () => {
+    if (selectedImage) {
+      const imageUrl = URL.createObjectURL(selectedImage as any);
+      return imageUrl;
     }
   };
 
@@ -88,7 +112,11 @@ const MyAccount = () => {
         display="flex"
         justifyContent="center"
       >
-        <Box w={isLargerThan768 ? (isLargerThan992 ? "45%" : "50%") : "90%"}>
+        <Box
+          as="form"
+          onSubmit={handleSubmit(handleEditProfile)}
+          w={isLargerThan768 ? (isLargerThan992 ? "45%" : "50%") : "90%"}
+        >
           <Box
             display="flex"
             alignItems="center"
@@ -97,17 +125,10 @@ const MyAccount = () => {
           >
             <input
               type="file"
+              {...register("picture")}
               ref={inputFile}
               style={{ display: "none" }}
-              onChange={(e: any) => {
-                setPhoto(e.target.files[0]);
-
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                  setSelectedImage(reader.result as string);
-                };
-                reader.readAsDataURL(e.target.files[0]);
-              }}
+              onChange={handleFileSelect}
             />
             <Image
               borderRadius="full"
@@ -116,9 +137,7 @@ const MyAccount = () => {
               bgColor="gray.500"
               opacity="0.8"
               alt=""
-              src={
-                photo ? URL.createObjectURL(photo) : (selectedImage as string)
-              }
+              src={renderPictureUpdate() || user?.picture}
               onClick={() => inputFile.current?.click()}
               _hover={{
                 cursor: "pointer",
@@ -126,7 +145,7 @@ const MyAccount = () => {
                 transition: "opacity 0.3s ease-in-out",
               }}
             />
-            {!photo && (
+            {!selectedImage && (
               <Box
                 position="absolute"
                 top="50%"
@@ -182,12 +201,7 @@ const MyAccount = () => {
             >
               Editar endereço
             </Button>
-            <Button
-              colorScheme="blackAlpha"
-              size="md"
-              onClick={handleEditProfile}
-              mt={4}
-            >
+            <Button colorScheme="blackAlpha" size="md" type="submit" mt={4}>
               Salvar dados
             </Button>
           </Box>
