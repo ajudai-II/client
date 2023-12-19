@@ -1,13 +1,10 @@
-// MyAccount.tsx
 import React, { ChangeEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Box,
   Button,
-  FormControl,
   Image,
-  Text,
   useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
@@ -25,8 +22,6 @@ const MyAccount = () => {
   const inputFile = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null | string>("");
   const router = useRouter();
-  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-  const [isVerificationCodeModalOpen, setIsVerificationCodeModalOpen] = useState(false);
 
   const {
     register,
