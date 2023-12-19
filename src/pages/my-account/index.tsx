@@ -17,10 +17,6 @@ import { MdAddAPhoto } from "react-icons/md";
 import { useRouter } from "next/router";
 import useUser from "@/hooks/useUser";
 import { api } from "@/services/api";
-
-// Importa os modals
-import ChangePasswordModal from "@/components/Modal/User/ModalChangePassword";
-import VerificationCodeModal from "@/components/Modal/User/VerificationCodeMail"; 
 import Seo from "@/components/Seo/Seo";
 
 const MyAccount = () => {
@@ -196,18 +192,6 @@ const MyAccount = () => {
           </Box>
         </Box>
       </Box>
-      <ChangePasswordModal
-        isOpen={isPasswordModalOpen}
-        onClose={() => setIsPasswordModalOpen(false)}
-      />
-      <VerificationCodeModal
-        isOpen={isVerificationCodeModalOpen}
-        onClose={() => setIsVerificationCodeModalOpen(false)}
-        userEmail={user?.email || ""}
-        onCodeVerified={() => {
-          console.log("Code verified!");
-        }}
-      />
     </>
   );
 };
