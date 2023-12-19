@@ -118,7 +118,8 @@ const Login = () => {
               Login
             </Button>
           </form>
-          <Text pt={8} fontSize="m" fontWeight="medium" textAlign={"center"}>
+          <Box pt={8} display="flex" flexDirection="column">
+          <Text fontSize="m" fontWeight="medium" textAlign={"center"}>
             Não tem uma conta?{" "}
             <span
               style={{ textDecoration: "underline", cursor: "pointer" }}
@@ -128,6 +129,10 @@ const Login = () => {
             </span>
             !
           </Text>
+          <Text pt={4} fontSize="m" fontWeight="medium" textAlign={"center"} onClick={() => router.push("/recovery-password")} cursor="pointer" textDecoration="underline">
+            Esqueci a senha
+          </Text>
+          </Box>
         </Container>
       </Box>
     </>

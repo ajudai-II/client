@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+// MyAccount.tsx
+import React, { ChangeEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -12,12 +13,15 @@ import {
 } from "@chakra-ui/react";
 import CustomInput from "@/components/Input/Input";
 import schema from "@/utils/schema/MyAccount";
-import { AxiosError } from "axios";
-import Seo from "@/components/Seo/Seo";
 import { MdAddAPhoto } from "react-icons/md";
 import { useRouter } from "next/router";
 import useUser from "@/hooks/useUser";
 import { api } from "@/services/api";
+
+// Importa os modals
+import ChangePasswordModal from "@/components/Modal/User/ModalChangePassword";
+import VerificationCodeModal from "@/components/Modal/User/VerificationCodeMail"; 
+import Seo from "@/components/Seo/Seo";
 
 const MyAccount = () => {
   const { user } = useUser();
@@ -25,6 +29,9 @@ const MyAccount = () => {
   const inputFile = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null | string>("");
   const router = useRouter();
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [isVerificationCodeModalOpen, setIsVerificationCodeModalOpen] = useState(false);
+
   const {
     register,
     watch,
@@ -54,17 +61,6 @@ const MyAccount = () => {
   const handleEditProfile = async () => {
     const formData = watch();
     console.log("formData", formData);
-    // const userUpdate = {
-    //   name: user?.name,
-    //   email: user?.email,
-    //   phone: user?.phone,
-    //   cpf: user?.cpf,
-    //   password: user?.password,
-    // };
-
-    // Object.entries(userUpdate).forEach(([key, value]) => {
-    //   return formData.append(key, value!);
-    // });
     try {
       await api.put(`/edit/${user._id}`, formData, {
         headers: {
@@ -73,7 +69,7 @@ const MyAccount = () => {
       });
 
       toast({
-        title: "Atulizado",
+        title: "Atualizado",
         status: "success",
         duration: 9000,
         isClosable: true,
@@ -185,13 +181,6 @@ const MyAccount = () => {
             name="cpf"
             errors={errors}
           />
-          <CustomInput
-            label="Senha"
-            type="password"
-            register={register}
-            name="password"
-            errors={errors}
-          />
           <Box w="100%" display="flex" justifyContent="center" gap={8} pt={4}>
             <Button
               colorScheme="blackAlpha"
@@ -207,6 +196,18 @@ const MyAccount = () => {
           </Box>
         </Box>
       </Box>
+      <ChangePasswordModal
+        isOpen={isPasswordModalOpen}
+        onClose={() => setIsPasswordModalOpen(false)}
+      />
+      <VerificationCodeModal
+        isOpen={isVerificationCodeModalOpen}
+        onClose={() => setIsVerificationCodeModalOpen(false)}
+        userEmail={user?.email || ""}
+        onCodeVerified={() => {
+          console.log("Code verified!");
+        }}
+      />
     </>
   );
 };
