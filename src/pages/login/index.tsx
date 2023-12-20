@@ -46,8 +46,8 @@ const Login = () => {
             path: "/",
           });
           window.location.href = "/";
-          setIsLoading(false);
         });
+      setIsLoading(false);
     } catch (error) {
       const errorMessage =
         (error as AxiosError<{ message: string }>).response?.data?.message ||
@@ -60,6 +60,7 @@ const Login = () => {
       });
       setIsLoading(false);
     }
+    setIsLoading(false);
   };
   return (
     <>
@@ -90,7 +91,7 @@ const Login = () => {
             <CustomInput
               label="Email"
               type="text"
-              placeholder="Digite sua email"
+              placeholder="Digite seu email"
               register={register}
               name="email"
               errors={errors}
@@ -119,19 +120,27 @@ const Login = () => {
             </Button>
           </form>
           <Box pt={8} display="flex" flexDirection="column">
-          <Text fontSize="m" fontWeight="medium" textAlign={"center"}>
-            Não tem uma conta?{" "}
-            <span
-              style={{ textDecoration: "underline", cursor: "pointer" }}
-              onClick={() => router.push("/register")}
+            <Text fontSize="m" fontWeight="medium" textAlign={"center"}>
+              Não tem uma conta?{" "}
+              <span
+                style={{ textDecoration: "underline", cursor: "pointer" }}
+                onClick={() => router.push("/register")}
+              >
+                Registre-se
+              </span>
+              !
+            </Text>
+            <Text
+              pt={4}
+              fontSize="m"
+              fontWeight="medium"
+              textAlign={"center"}
+              onClick={() => router.push("/recovery-password")}
+              cursor="pointer"
+              textDecoration="underline"
             >
-              Registre-se
-            </span>
-            !
-          </Text>
-          <Text pt={4} fontSize="m" fontWeight="medium" textAlign={"center"} onClick={() => router.push("/recovery-password")} cursor="pointer" textDecoration="underline">
-            Esqueci a senha
-          </Text>
+              Esqueci a senha
+            </Text>
           </Box>
         </Container>
       </Box>

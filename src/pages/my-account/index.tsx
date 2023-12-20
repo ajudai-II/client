@@ -1,18 +1,9 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  Box,
-  Button,
-  FormControl,
-  Image,
-  Text,
-  useMediaQuery,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Button, Image, useMediaQuery, useToast } from "@chakra-ui/react";
 import CustomInput from "@/components/Input/Input";
 import schema from "@/utils/schema/MyAccount";
-import { AxiosError } from "axios";
 import Seo from "@/components/Seo/Seo";
 import { MdAddAPhoto } from "react-icons/md";
 import { useRouter } from "next/router";
@@ -20,7 +11,7 @@ import useUser from "@/hooks/useUser";
 import { api } from "@/services/api";
 
 const MyAccount = () => {
-  const { user } = useUser();
+  const { user, reload } = useUser();
   const toast = useToast();
   const inputFile = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null | string>("");
@@ -53,25 +44,14 @@ const MyAccount = () => {
 
   const handleEditProfile = async () => {
     const formData = watch();
-    console.log("formData", formData);
-    // const userUpdate = {
-    //   name: user?.name,
-    //   email: user?.email,
-    //   phone: user?.phone,
-    //   cpf: user?.cpf,
-    //   password: user?.password,
-    // };
 
-    // Object.entries(userUpdate).forEach(([key, value]) => {
-    //   return formData.append(key, value!);
-    // });
     try {
       await api.put(`/edit/${user._id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-
+      reload();
       toast({
         title: "Atualizado com sucesso",
         status: "success",
@@ -145,17 +125,18 @@ const MyAccount = () => {
                 transition: "opacity 0.3s ease-in-out",
               }}
             />
-            {!selectedImage && (
-              <Box
-                position="absolute"
-                top="50%"
-                left="50%"
-                transform="translate(-50%, -50%)"
-                zIndex={2}
-              >
-                <MdAddAPhoto size={36} />
-              </Box>
-            )}
+            {!selectedImage ||
+              (user?.picture && (
+                <Box
+                  position="absolute"
+                  top="50%"
+                  left="50%"
+                  transform="translate(-50%, -50%)"
+                  zIndex={2}
+                >
+                  <MdAddAPhoto size={36} />
+                </Box>
+              ))}
           </Box>
           <CustomInput
             label="Nome"

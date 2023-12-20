@@ -9,12 +9,19 @@ interface IHomeBannerProps {
   title?: string;
 }
 
+const IMAGE_URL = "https://storage.googleapis.com/ajudai-ii.appspot.com/";
+
 const HomeBanner: React.FC<IHomeBannerProps> = ({ picture, alt, title }) => {
   const [isLargerThan576, isLargerThan768, isLargerThan992] = useMediaQuery([
     "(min-width: 576px)",
     "(min-width: 768px)",
     "(min-width: 992px)",
   ]);
+
+  function linkRemoval() {
+    const removedLink = picture?.replace(IMAGE_URL!, "");
+    return `${IMAGE_URL}${removedLink}`;
+  }
 
   return (
     <Box w={"100%"}>
@@ -32,6 +39,7 @@ const HomeBanner: React.FC<IHomeBannerProps> = ({ picture, alt, title }) => {
         position="relative"
       >
         <Image
+          loader={linkRemoval}
           src={picture}
           alt={alt}
           width={500}

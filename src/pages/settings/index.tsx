@@ -22,8 +22,6 @@ const Settings = () => {
     router.push(`/delete-account/${user._id}`);
   };
 
-  console.log(user._id);
-
   return (
     <>
       <Seo title="Ajudaí | Preferências" />
@@ -56,11 +54,7 @@ const Settings = () => {
             <Text fontSize="xl" fontWeight="bold" mb={2}>
               Deletar conta
             </Text>
-            <Button
-              w={"100%"}
-              size="md"
-              onClick={handleDeleteAccount}
-            >
+            <Button w={"100%"} size="md" onClick={handleDeleteAccount}>
               Continuar
             </Button>
           </Box>

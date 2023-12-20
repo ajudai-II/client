@@ -15,12 +15,11 @@ import {
   GiTicket,
 } from "react-icons/gi";
 import Carousel from "@/components/Carousel/Carousel";
-import MobileNav from "@/components/MobileNav/MobileNav";
 import Seo from "@/components/Seo/Seo";
-import homeMock from "@/mocks/homeMock";
 import SearchBar from "@/components/Searching/SearchBar/SearchBar";
 import CardHome from "@/components/Cards/Home/CardHome";
 import { useRouter } from "next/router";
+import { useGetTopDonations } from "@/queries/donationQuerie";
 
 const categories = [
   { icon: <GiKnifeFork size={32} />, label: "Alimentos" },
@@ -31,6 +30,7 @@ const categories = [
 ];
 
 const Home = () => {
+  const { data } = useGetTopDonations();
   const [isLargerThan768, isLargerThan992] = useMediaQuery([
     "(min-width: 768px)",
     "(min-width: 992px)",
@@ -55,12 +55,12 @@ const Home = () => {
         <Box w={"95%"}>
           {isLargerThan768 ? null : (
             <Box marginTop={"4rem"}>
-              <SearchBar />
+              <SearchBar onSearch={() => console.log("SEARCH")} />
             </Box>
           )}
 
           <Box position={"relative"}>
-            <Carousel />
+            <Carousel data={data?.data} />
           </Box>
 
           <Box>
@@ -106,7 +106,7 @@ const Home = () => {
               mt="40px"
               mb="72px"
             >
-              <CardHome data={homeMock} />
+              <CardHome data={data?.data} />
             </VStack>
           </Box>
         </Box>

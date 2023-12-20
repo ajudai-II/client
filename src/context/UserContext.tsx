@@ -5,10 +5,12 @@ import { useGetUserById } from "@/queries/userQueries";
 
 interface IUserContext {
   user: IUser;
+  reload: () => void;
 }
 
 const UserContext = createContext<IUserContext>({
   user: {} as IUser,
+  reload: () => null,
 });
 
 interface IChildren {
@@ -18,7 +20,7 @@ interface IChildren {
 export const UserContextProvider = ({ children }: IChildren) => {
   const [user, setUser] = useState<IUser>({} as IUser);
   const { user_id } = parseCookies();
-  const { data } = useGetUserById(user_id);
+  const { data, refetch: reload } = useGetUserById(user_id);
 
   useEffect(() => {
     if (data) {
@@ -26,7 +28,7 @@ export const UserContextProvider = ({ children }: IChildren) => {
     }
   }, [data]);
 
-  const value = useMemo(() => ({ user }), [user]);
+  const value = useMemo(() => ({ user, reload }), [user, reload]);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

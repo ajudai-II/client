@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CardMyDonations from "@/components/Cards/Donations/CardMyDonations";
 import Seo from "@/components/Seo/Seo";
 import { useGetDonationsByDonator } from "@/queries/donationQuerie";
@@ -10,18 +10,42 @@ import {
   Skeleton,
   Spinner,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useDonation } from "@/hooks/useDonation";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import useUser from "@/hooks/useUser";
+import { IDonation } from "@/@types/donation";
+import ModalEditDonation from "@/components/Modal/Donations/ModalEditDonation";
+import ModalDeleteDonation from "@/components/Modal/Donations/ModalDeleteDonation";
 
 const skeletonItems = [0, 1, 2, 3, 4];
 
 const MyDonationsPage = () => {
+  const { user } = useUser();
   const { donationUpdated, setDonation } = useDonation();
   const [page, setPage] = useState<number>(1);
 
   const { data, isLoading, isError, isFetching, refetch, isRefetching } =
-    useGetDonationsByDonator(`6546e2b5f8510b2efe3b0fea`, page);
+    useGetDonationsByDonator(`${user?._id}`, page);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: deleteIsOpen,
+    onOpen: deleteOnOpen,
+    onClose: deleteOnClose,
+  } = useDisclosure();
+
+  const openModal = (item: IDonation) => {
+    console.log(item);
+    setDonation(item);
+    onOpen();
+  };
+
+  const openDeleteModal = (item: IDonation) => {
+    setDonation(item);
+    deleteOnOpen();
+  };
 
   useEffect(() => {
     refetch();
@@ -44,7 +68,7 @@ const MyDonationsPage = () => {
         _id: "",
       },
     });
-  }, [donationUpdated]);
+  }, [donationUpdated, data]);
 
   const previousPage = () => {
     if (page > 1) {
@@ -109,44 +133,70 @@ const MyDonationsPage = () => {
       <Seo title={"Ajudaí | Minhas doações"} />
 
       <Box w={"100%"}>
-        <Box
-          display={"flex"}
-          alignItems={"center"}
-          flexDirection={"column"}
-          padding={"10px"}
-          gap={"10px"}
-          marginTop={{ base: "3.5rem", md: 0 }}
-          paddingBottom={{ base: "4.5rem", md: "0.625rem" }}
-        >
-          <CardMyDonations data={data?.data} />
-          <ButtonGroup
-            w={{ base: "100%", md: "50%" }}
+        {data?.data?.length ? (
+          <Box
             display={"flex"}
-            justifyContent={"space-between"}
             alignItems={"center"}
+            flexDirection={"column"}
+            padding={"10px"}
+            gap={"10px"}
+            marginTop={{ base: "3.5rem", md: 0 }}
+            paddingBottom={{ base: "4.5rem", md: "0.625rem" }}
           >
-            <Button
-              disabled={page === 1 ? true : false}
-              cursor={page === 1 ? "not-allowed" : "pointer"}
-              onClick={() => previousPage()}
-              borderRadius={"50%"}
-              p={"0.5rem"}
+            {data?.data?.map((item: IDonation) => (
+              <CardMyDonations
+                openDeleteModal={() => openDeleteModal(item)}
+                openEditModal={() => openModal(item)}
+                picture={item.picture}
+                title={item.title}
+                description={item.description}
+                data={data?.data}
+                key={item._id}
+              />
+            ))}
+            <ButtonGroup
+              w={{ base: "100%", md: "50%" }}
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
             >
-              <ArrowBackIcon />
-            </Button>
-            <Text>Página {page}</Text>
-            <Button
-              background={"blackAlpha.900"}
-              color={"white"}
-              onClick={() => setPage(page + 1)}
-              borderRadius={"50%"}
-              p={"0.5rem"}
-            >
-              <ArrowForwardIcon />
-            </Button>
-          </ButtonGroup>
-        </Box>
+              <Button
+                disabled={page === 1 ? true : false}
+                cursor={page === 1 ? "not-allowed" : "pointer"}
+                onClick={() => previousPage()}
+                borderRadius={"50%"}
+                p={"0.5rem"}
+              >
+                <ArrowBackIcon />
+              </Button>
+              <Text>Página {page}</Text>
+              <Button
+                background={"blackAlpha.900"}
+                color={"white"}
+                onClick={() => setPage(page + 1)}
+                borderRadius={"50%"}
+                p={"0.5rem"}
+              >
+                <ArrowForwardIcon />
+              </Button>
+            </ButtonGroup>
+          </Box>
+        ) : (
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            flexDirection={"column"}
+            padding={"10px"}
+            gap={"10px"}
+            marginTop={{ base: "3.5rem", md: 0 }}
+            paddingBottom={{ base: "4.5rem", md: "0.625rem" }}
+          >
+            <Text as={"h1"}>Você ainda não possui nenhuma doação</Text>
+          </Box>
+        )}
       </Box>
+      <ModalEditDonation isOpen={isOpen} onClose={onClose} />
+      <ModalDeleteDonation isOpen={deleteIsOpen} onClose={deleteOnClose} />
     </Box>
   );
 };

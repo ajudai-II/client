@@ -5,8 +5,13 @@ import "slick-carousel/slick/slick-theme.css";
 import HomeBanner from "../HomeBanner/HomeBanner";
 import homeMock from "@/mocks/homeMock";
 import { Box } from "@chakra-ui/react";
+import { IDonation } from "@/@types/donation";
 
-const Carousel = () => {
+type TCarousel = {
+  data: IDonation[];
+};
+
+const Carousel: React.FC<TCarousel> = ({ data }) => {
   const settings = {
     dots: true,
     arrows: false,
@@ -31,7 +36,7 @@ const Carousel = () => {
     ),
   };
 
-  const slides = homeMock.map((item, key) => (
+  const slides = data?.map((item, key) => (
     <HomeBanner key={key} picture={item.picture} alt="" title={item.title} />
   ));
 
