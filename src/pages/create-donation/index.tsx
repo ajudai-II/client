@@ -1,44 +1,49 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import Seo from "@/components/Seo/Seo";
 import {
   Box,
   Button,
-  FormControl,
-  Image,
   Text,
-  useMediaQuery,
   useToast,
+  Image,
+  Select,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  useMediaQuery,
 } from "@chakra-ui/react";
-import CustomInput from "@/components/Input/Input";
-import schema from "@/utils/schema/MyAccount";
-import { AxiosError } from "axios";
-import Seo from "@/components/Seo/Seo";
+import React, { ChangeEvent, useRef, useState } from "react";
 import { MdAddAPhoto } from "react-icons/md";
-import { useRouter } from "next/router";
-import useUser from "@/hooks/useUser";
+import { createDonationSchema } from "@/schemas/createDonation";
+import { useForm, Controller } from "react-hook-form";
+import CustomInput from "@/components/Input/Input";
+import { yupResolver } from "@hookform/resolvers/yup";
 import { api } from "@/services/api";
+import { useDonation } from "@/hooks/useDonation";
+import useUser from "@/hooks/useUser";
 
-const MyAccount = () => {
+const CreateDonation = () => {
+  const { donation } = useDonation();
   const { user } = useUser();
   const toast = useToast();
   const inputFile = useRef<HTMLInputElement>(null);
   const [selectedImage, setSelectedImage] = useState<File | null | string>("");
-  const router = useRouter();
   const {
-    register,
-    watch,
+    control,
     handleSubmit,
     setValue,
+    watch,
+    register,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(createDonationSchema),
     defaultValues: {
-      name: user?.name,
-      email: user?.email,
-      phone: user?.phone,
-      cpf: user?.cpf,
-      password: user?.password,
+      title: "",
+      description: "",
+      amount: 1,
+      category: "",
+      picture: null,
     },
   });
 
@@ -51,36 +56,30 @@ const MyAccount = () => {
     }
   };
 
-  const handleEditProfile = async () => {
+  const handleCreateDonation = async () => {
     const formData = watch();
+  
     console.log("formData", formData);
-    // const userUpdate = {
-    //   name: user?.name,
-    //   email: user?.email,
-    //   phone: user?.phone,
-    //   cpf: user?.cpf,
-    //   password: user?.password,
-    // };
-
-    // Object.entries(userUpdate).forEach(([key, value]) => {
-    //   return formData.append(key, value!);
-    // });
-    try {
-      await api.put(`/edit/${user._id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      toast({
-        title: "Atualizado com sucesso",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
+  try {
+    await api.post("/create-donation", {
+      ...formData,
+      id: user._id,
+    }, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => {
+        toast({
+          title: res.data.message,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
       });
     } catch (error) {
       toast({
-        title: "Erro ao editar perfil",
+        title: "Erro ao criar doação",
         status: "error",
         duration: 9000,
         isClosable: true,
@@ -96,6 +95,8 @@ const MyAccount = () => {
     }
   };
 
+  const categories = ["Alimentos", "Vestuário", "Educação", "Saúde", "Outros"];
+
   const [isLargerThan768, isLargerThan992] = useMediaQuery([
     "(min-width: 768px)",
     "(min-width: 992px)",
@@ -103,7 +104,7 @@ const MyAccount = () => {
 
   return (
     <>
-      <Seo title="Ajudai | Minha Conta" />
+      <Seo title="Pedir uma Ajudaí" />
       <Box
         marginTop={isLargerThan768 ? (isLargerThan992 ? "2%" : "3%") : "20%"}
         marginBottom={isLargerThan768 ? (isLargerThan992 ? "2%" : "3%") : "20%"}
@@ -114,9 +115,13 @@ const MyAccount = () => {
       >
         <Box
           as="form"
-          onSubmit={handleSubmit(handleEditProfile)}
+          onSubmit={handleSubmit(handleCreateDonation)}
+          encType="multipart/form-data"
           w={isLargerThan768 ? (isLargerThan992 ? "45%" : "50%") : "90%"}
         >
+          <Text textAlign="center" fontSize="1.8rem" pb={4}>
+            Insira uma imagem abaixo
+          </Text>
           <Box
             display="flex"
             alignItems="center"
@@ -137,7 +142,7 @@ const MyAccount = () => {
               bgColor="gray.500"
               opacity="0.8"
               alt=""
-              src={renderPictureUpdate() || user?.picture}
+              src={renderPictureUpdate() || donation?.picture}
               onClick={() => inputFile.current?.click()}
               _hover={{
                 cursor: "pointer",
@@ -158,51 +163,59 @@ const MyAccount = () => {
             )}
           </Box>
           <CustomInput
-            label="Nome"
+            label="Título"
             type="text"
             register={register}
-            name="name"
+            name="title"
+            placeholder="Insira o título da doação..."
             errors={errors}
           />
           <CustomInput
-            label="Email"
-            type="email"
+            label="Descrição"
+            type="text"
             register={register}
-            name="email"
+            name="description"
+            placeholder="Descreva seu pedido com mais detalhes..."
             errors={errors}
           />
-          <CustomInput
-            label="Número"
-            type="number"
-            register={register}
-            name="phone"
-            errors={errors}
+          <Box pt="8px">
+            <label>Quantidade</label>
+          </Box>
+          <Controller
+            name="amount"
+            control={control}
+            defaultValue={1}
+            render={({ field }) => (
+              <NumberInput min={1} max={999} p="8px 0">
+                <NumberInputField {...field} />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            )}
           />
-          <CustomInput
-            label="CPF"
-            type="number"
-            register={register}
-            name="cpf"
-            errors={errors}
+          <label>Categoria</label>
+          <Controller
+            name="category"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <Select p="8px 0" size="md" {...field}>
+                <option value="" disabled>
+                  Selecione uma categoria
+                </option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </Select>
+            )}
           />
-          <CustomInput
-            label="Senha"
-            type="password"
-            register={register}
-            name="password"
-            errors={errors}
-          />
-          <Box w="100%" display="flex" justifyContent="center" gap={8} pt={4}>
-            <Button
-              colorScheme="blackAlpha"
-              size="md"
-              onClick={() => router.push("/my-address")}
-              mt={4}
-            >
-              Editar endereço
-            </Button>
+          <Box w="100%" display="flex" justifyContent="center" pt={4}>
             <Button colorScheme="blackAlpha" size="md" type="submit" mt={4}>
-              Salvar dados
+              Pedir uma Ajudaí
             </Button>
           </Box>
         </Box>
@@ -211,4 +224,4 @@ const MyAccount = () => {
   );
 };
 
-export default MyAccount;
+export default CreateDonation;

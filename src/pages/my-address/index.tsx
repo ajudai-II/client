@@ -9,17 +9,17 @@ import Seo from "@/components/Seo/Seo";
 import { useRouter } from "next/router";
 import useUser from "@/hooks/useUser";
 
-const MyAccount = () => {
+const MyAddress = () => {
   const {
     register,
     watch,
     setValue,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
-
+  const {user} = useUser();
   const toast = useToast();
   const router = useRouter();
-  const { user } = useUser();
+  
   const handleCEPBlur = async () => {
     const cep = watch("cep");
 
@@ -45,30 +45,39 @@ const MyAccount = () => {
   };
 
   useEffect(() => {
-    let timer: string | number | NodeJS.Timeout | undefined;
+    const addresses = user && user.addresses ? user.addresses : [];
+    const lastAddressIndex = addresses.length - 1;
+    const lastAddress = lastAddressIndex >= 0 ? addresses[lastAddressIndex] : null;
+    if (lastAddress) {
+      setValue("cep", lastAddress.cep);
+      setValue("uf", lastAddress.uf);
+      setValue("city", lastAddress.city);
+      setValue("neighborhood", lastAddress.neighborhood);
+      setValue("street", lastAddress.street);
+      setValue("number", lastAddress.number);
+      setValue("complement", lastAddress.complement);
+    }
+  }, [user, setValue]);
+
+  useEffect(() => {
     const delay = 1000;
-
+  
     const handleCEPChange = async () => {
-      clearTimeout(timer);
-
-      timer = setTimeout(async () => {
-        handleCEPBlur();
-      }, delay);
+      handleCEPBlur();
     };
-
-    handleCEPChange();
-
+  
+    const timer = setTimeout(handleCEPChange, delay);
+  
     return () => {
       clearTimeout(timer);
     };
   }, [watch("cep")]);
 
-  const handleEditProfile = async () => {
+  const handleEditAddress = async () => {
     const formData = watch();
-
     try {
       await axios
-        .post(`http://localhost:4000/address/${user._id}`, formData)
+        .post(`http://localhost:4000/my-address/${user._id}`, formData)
         .then((res) => {
           toast({
             title: res.data.message,
@@ -170,7 +179,7 @@ const MyAccount = () => {
             <Button
               colorScheme="blackAlpha"
               size="md"
-              onClick={handleEditProfile}
+              onClick={handleEditAddress}
               mt={4}
             >
               Salvar endereço
@@ -182,4 +191,4 @@ const MyAccount = () => {
   );
 };
 
-export default MyAccount;
+export default MyAddress;

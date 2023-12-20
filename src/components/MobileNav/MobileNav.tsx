@@ -5,17 +5,19 @@ import { BsFillHouseDoorFill, BsFillPersonFill, BsList } from "react-icons/bs";
 import { LuSettings } from "react-icons/lu";
 import { useRouter } from "next/router";
 import { headerRoutes } from "@/const/pages";
-
-const iconsNav = [
-  { icon: BsFillHouseDoorFill, label: "Home", path: "/" },
-  { icon: BsFillPersonFill, label: "Perfil", path: "/my-account" },
-  { icon: BsList, label: "Doações", path: "/my-donations" },
-  { icon: LuSettings, label: "Opções", path: "/settings" },
-];
+import useUser from "@/hooks/useUser";
 
 const MobileNav = () => {
   const navigation = useRouter();
   const { asPath } = useRouter();
+  const {user} = useUser();
+
+  const iconsNav = [
+    { icon: BsFillHouseDoorFill, label: "Home", path: "/" },
+    { icon: BsFillPersonFill, label: "Perfil", path: `/my-account` },
+    { icon: BsList, label: "Doações", path: "/my-donations" },
+    { icon: LuSettings, label: "Opções", path: "/settings" },
+  ];
 
   return (
     <>

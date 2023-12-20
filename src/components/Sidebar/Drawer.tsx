@@ -27,6 +27,7 @@ const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
   const iconsNav = [
     { label: "Home", path: "/" },
     { label: "Perfil", path: "/my-account" },
+    { label: "Fazer Pedido", path: "/create-donation"},
     { label: "Doações", path: "/my-donations" },
     { label: "Opções", path: "/settings" },
   ];
@@ -54,7 +55,7 @@ const DrawerComponent: React.FC<IDrawerComponent> = ({ isOpen, onClose }) => {
         <DrawerHeader>Menu</DrawerHeader>
 
         <DrawerBody>
-          <Input placeholder="Type here..." />
+          <Input placeholder="Type here..." mb={4} />
           {iconsNav.map((item, index) => (
             <Text
               key={index}

@@ -30,5 +30,6 @@ export const config = {
     "/my-account",
     "/my-address",
     "/settings",
+    "/create-donation",
   ],
 };

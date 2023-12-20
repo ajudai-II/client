@@ -10,7 +10,6 @@ export interface IAddress {
 
 export interface IUser {
   picture: string | undefined;
-  addresses: IAddress[];
   _id: string;
   name: string;
   email: string;
@@ -18,4 +17,5 @@ export interface IUser {
   cpf: string;
   password: string;
   createdAt: Date;
+  addresses: IAddress[] | undefined;
 }
